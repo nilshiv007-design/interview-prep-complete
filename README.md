@@ -31,7 +31,7 @@ Top 20 React Interview Q&A cards
 
 Features:
 
-✅ W3Schools green color theme
+✅ green color theme
 ✅ Syntax-highlighted code blocks with Copy button
 ✅ Clickable interview Q&A cards (click to expand answers)
 ✅ Switch between JS ↔ React modes in the top nav
