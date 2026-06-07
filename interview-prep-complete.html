@@ -1,0 +1,4103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS + ES6 + React — Complete Interview Guide</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --bg3: #1a1a24;
+      --bg4: #222230;
+      --border: rgba(255, 255, 255, 0.07);
+      --border2: rgba(255, 255, 255, 0.12);
+      --text: #e8e8f0;
+      --text2: #9898b0;
+      --text3: #606075;
+      --accent: #7c6fff;
+      --accent2: #ff6f91;
+      --accent3: #6fffd4;
+      --accent4: #ffd96f;
+      --js: #f7df1e;
+      --es6: #ff8c42;
+      --react: #61dafb;
+      --green: #4ade80;
+      --red: #f87171;
+      --sidebar-w: 280px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── SIDEBAR ── */
+    #sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .sb-logo {
+      padding: 20px 18px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sb-logo-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.3px;
+    }
+
+    .sb-logo-sub {
+      font-size: 10px;
+      color: var(--text3);
+      margin-top: 2px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .sb-search-wrap {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sb-search {
+      width: 100%;
+      padding: 7px 10px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border .2s;
+    }
+
+    .sb-search:focus {
+      border-color: var(--accent);
+    }
+
+    .sb-tabs {
+      display: flex;
+      gap: 0;
+      padding: 8px 12px 0;
+    }
+
+    .sb-tab {
+      flex: 1;
+      padding: 5px 4px;
+      font-size: 10px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      background: var(--bg3);
+      color: var(--text3);
+      border-radius: 4px;
+      margin: 0 2px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      transition: all .2s;
+    }
+
+    .sb-tab.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .sb-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 6px 0 20px;
+    }
+
+    .sb-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .sb-list::-webkit-scrollbar-thumb {
+      background: var(--bg4);
+      border-radius: 2px;
+    }
+
+    .sb-section {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      padding: 10px 16px 3px;
+    }
+
+    .sb-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text2);
+      width: 100%;
+      text-align: left;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      transition: all .15s;
+      border-left: 2px solid transparent;
+    }
+
+    .sb-item:hover {
+      background: var(--bg3);
+      color: var(--text);
+    }
+
+    .sb-item.active {
+      background: rgba(124, 111, 255, .1);
+      color: var(--accent);
+      border-left-color: var(--accent);
+    }
+
+    .sb-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .sb-badge {
+      font-size: 9px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    /* ── MAIN ── */
+    #main {
+      flex: 1;
+      overflow-y: auto;
+      height: 100vh;
+      background: var(--bg);
+    }
+
+    #main::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    #main::-webkit-scrollbar-thumb {
+      background: var(--bg4);
+      border-radius: 3px;
+    }
+
+    #content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 28px 32px 60px;
+    }
+
+    /* ── HOME ── */
+    .home-hero {
+      background: linear-gradient(135deg, rgba(124, 111, 255, .15) 0%, rgba(255, 111, 145, .1) 50%, rgba(111, 255, 212, .08) 100%);
+      border: 1px solid rgba(124, 111, 255, .25);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .home-hero::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(124, 111, 255, .2), transparent 70%);
+      pointer-events: none;
+    }
+
+    .home-hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 30%, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .home-hero-sub {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.7;
+      max-width: 580px;
+    }
+
+    .home-stats {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 18px;
+      text-align: center;
+    }
+
+    .stat-n {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .stat-l {
+      font-size: 10px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .home-grid-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin: 24px 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .home-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .home-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .home-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-2px);
+      background: var(--bg3);
+    }
+
+    .home-card-icon {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .home-card-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .home-card-cat {
+      font-size: 10px;
+      color: var(--text3);
+    }
+
+    /* ── TOPIC PAGE ── */
+    .topic-breadcrumb {
+      font-size: 11px;
+      color: var(--text3);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .topic-breadcrumb a {
+      color: var(--accent);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .topic-header {
+      margin-bottom: 24px;
+    }
+
+    .topic-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+
+    .topic-h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .topic-tagline {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.65;
+    }
+
+    /* ── 5W GRID ── */
+    .fivew-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .fivew-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      transition: border .2s;
+    }
+
+    .fivew-card:hover {
+      border-color: var(--border2);
+    }
+
+    .fivew-card.full {
+      grid-column: 1 / -1;
+    }
+
+    .fivew-icon {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .fivew-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .fivew-text {
+      font-size: 12.5px;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+
+    .fivew-text b {
+      color: var(--text);
+    }
+
+    .fivew-text code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: var(--bg4);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--accent3);
+    }
+
+    /* ── CODE BLOCK ── */
+    .code-section {
+      margin: 16px 0;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .code-section-head {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .code-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .copy-btn {
+      font-size: 10px;
+      padding: 3px 10px;
+      border-radius: 4px;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      color: var(--text3);
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .copy-btn:hover {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
+    .code-block {
+      padding: 16px;
+      overflow-x: auto;
+      margin: 0;
+    }
+
+    .code-block pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.75;
+      color: #abb2bf;
+      white-space: pre;
+    }
+
+    .kw {
+      color: #c678dd;
+    }
+
+    .fn {
+      color: #61afef;
+    }
+
+    .str {
+      color: #98c379;
+    }
+
+    .cm {
+      color: #5c6370;
+      font-style: italic;
+    }
+
+    .num {
+      color: #d19a66;
+    }
+
+    .cls {
+      color: #e5c07b;
+    }
+
+    .op {
+      color: #56b6c2;
+    }
+
+    /* ── INTERVIEW QA ── */
+    .qa-section {
+      margin: 20px 0;
+    }
+
+    .qa-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .qa-item {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+
+    .qa-q {
+      padding: 13px 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      transition: background .15s;
+    }
+
+    .qa-q:hover {
+      background: var(--bg3);
+    }
+
+    .qa-q-text {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      flex: 1;
+      line-height: 1.5;
+    }
+
+    .qa-chev {
+      color: var(--text3);
+      font-size: 12px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .qa-a {
+      padding: 0 16px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .3s ease, padding .3s;
+    }
+
+    .qa-a.open {
+      padding: 0 16px 14px;
+      max-height: 500px;
+    }
+
+    .qa-a-inner {
+      font-size: 12.5px;
+      color: var(--text2);
+      line-height: 1.75;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+
+    .qa-a-inner b {
+      color: var(--accent3);
+    }
+
+    .qa-a-inner code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: var(--bg4);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--accent4);
+    }
+
+    /* ── WARN / TIP ── */
+    .warn-box {
+      border-left: 3px solid var(--accent2);
+      background: rgba(255, 111, 145, .07);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      margin: 12px 0;
+      font-size: 12.5px;
+      color: #ffb3c3;
+      line-height: 1.65;
+    }
+
+    .tip-box {
+      border-left: 3px solid var(--accent3);
+      background: rgba(111, 255, 212, .07);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      margin: 12px 0;
+      font-size: 12.5px;
+      color: #a0ffd8;
+      line-height: 1.65;
+    }
+
+    .info-box {
+      border-left: 3px solid var(--accent);
+      background: rgba(124, 111, 255, .08);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      margin: 12px 0;
+      font-size: 12.5px;
+      color: #c4bfff;
+      line-height: 1.65;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    /* ── NAV BUTTONS ── */
+    .nav-btns {
+      display: flex;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .nav-btn {
+      padding: 9px 22px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      transition: all .2s;
+    }
+
+    .nav-prev {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--text2);
+    }
+
+    .nav-prev:hover {
+      border-color: var(--border2);
+      color: var(--text);
+    }
+
+    .nav-next {
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      color: #fff;
+    }
+
+    .nav-next:hover {
+      background: #6a5cf7;
+    }
+
+    /* ── PROGRESS BAR ── */
+    .progress-bar {
+      height: 2px;
+      background: var(--bg3);
+      border-radius: 2px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      transition: width .4s ease;
+    }
+
+    /* ── CHIP ── */
+    .chip {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin: 2px;
+    }
+
+    .chip-js {
+      background: rgba(247, 223, 30, .15);
+      color: var(--js);
+    }
+
+    .chip-es6 {
+      background: rgba(255, 140, 66, .15);
+      color: var(--es6);
+    }
+
+    .chip-react {
+      background: rgba(97, 218, 251, .15);
+      color: var(--react);
+    }
+
+    /* ── SCROLLBAR GLOBAL ── */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--bg4);
+      border-radius: 3px;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-in {
+      animation: fadeIn .25s ease forwards;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      #sidebar {
+        width: 220px;
+        min-width: 220px;
+      }
+
+      .fivew-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .home-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+
+      #content {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-title">⚡ Interview Prep</div>
+      <div class="sb-logo-sub">JS + ES6 + React — Complete Guide</div>
+    </div>
+    <div class="sb-search-wrap">
+      <input class="sb-search" id="searchInput" placeholder="🔍  Search topics..." oninput="filterTopics(this.value)">
+    </div>
+    <div style="padding:8px 12px 4px; display:flex; gap:4px;">
+      <button class="sb-tab active" id="tab-all" onclick="setTab('all')">All</button>
+      <button class="sb-tab" id="tab-js" onclick="setTab('js')">JS/ES6</button>
+      <button class="sb-tab" id="tab-react" onclick="setTab('react')">React</button>
+    </div>
+    <div class="sb-list" id="sidebarList"></div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="main">
+    <div id="content"></div>
+  </div>
+
+  <script>
+    // ══════════════════════════════════════════════
+    //  DATA — All Topics
+    // ══════════════════════════════════════════════
+    const topics = [
+
+      // ────────────────────────────────────────────
+      // JAVASCRIPT CORE
+      // ────────────────────────────────────────────
+      {
+        id: 'var_let_const', grp: 'js', sec: 'JS Core', color: '#a78bfa', icon: '📦',
+        label: 'var vs let vs const',
+        tag: 'JS Fundamentals', tagColor: 'rgba(167,139,250,.2)', tagText: '#a78bfa',
+        tagline: 'Variable declaration ke 3 tarike — scope, hoisting aur reassignment samjho',
+        what: `<b>var</b> = function scoped variable (ES5). <b>let</b> = block scoped variable (ES6). <b>const</b> = block scoped constant jo ek baar assign hone ke baad reassign nahi ho sakta. Teen alag tarike hain JS mein variables declare karne ke.`,
+        why: `<b>var</b> ke saath bahut problems the — function scope se variables leak hote the, hoisting se confusing undefined aata tha. <b>let/const</b> ne in problems solve kiye: block scope, Temporal Dead Zone, aur const se accidental reassignment rokna.`,
+        when: `<b>const</b> = default choice (hamesha prefer karo). <b>let</b> = jab value change karni ho (loop counter, reassignable). <b>var</b> = kabhi mat use karo new code mein — sirf legacy code mein milega.`,
+        where: `<code>const</code> → functions, objects, arrays, imports. <code>let</code> → loop variables, conditionally assigned vars. <code>var</code> → old code read karte waqt samajhne ke liye.`,
+        how: `Declare karo, assign karo, const ke saath initialize karna zaroor hai. let/const mein Temporal Dead Zone hota hai — before declaration access = ReferenceError.`,
+        warn: `const object ko reassign nahi kar sakte lekin properties change ho sakti hain! <code>const arr = []; arr.push(1)</code> — ye kaam karta hai! Sirf reference lock hota hai.`,
+        tip: `Loop closure trick: <code>var</code> loop mein <code>setTimeout</code> = 3 3 3 (shared var). <code>let</code> loop mein = 0 1 2 (new binding per iteration).`,
+        code: `// var — Function Scoped (AVOID!)
+var x = 10;
+if (true) {
+  var x = 20;        // Same variable overwrite!
+  console.log(x);    // 20
+}
+console.log(x);      // 20 — leaked out!
+
+// let — Block Scoped ✅
+let y = 10;
+if (true) {
+  let y = 20;        // Different variable
+  console.log(y);    // 20
+}
+console.log(y);      // 10 — safe!
+
+// const — Block Scoped + No Reassign ✅
+const PI = 3.14159;
+// PI = 3.15;         // ❌ TypeError!
+
+// const with objects — properties change ho sakti hain
+const user = { name: 'Rahul', city: 'Mumbai' };
+user.name = 'Priya';  // ✅ Works (property change)
+// user = {};          // ❌ TypeError (reference change)
+
+// Hoisting comparison
+console.log(a);        // undefined (var hoisted)
+var a = 5;
+
+// console.log(b);     // ❌ ReferenceError (TDZ)
+let b = 5;
+
+// Classic interview: loop closure
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 0); // 3 3 3 ← bug!
+}
+for (let j = 0; j < 3; j++) {
+  setTimeout(() => console.log(j), 0); // 0 1 2 ← correct!
+}`,
+        qa: [
+          { q: 'var, let, const mein kya fark hai? Scope explain karo.', a: '<b>var</b> = function scoped, hoisted (undefined pe), redeclare + reassign possible. <b>let</b> = block scoped, TDZ (ReferenceError before declaration), reassign possible. <b>const</b> = block scoped, TDZ, declaration ke saath initialize karna zaroori, NO reassign. Best practice: <b>const by default, let jab zarurat ho, var kabhi nahi</b>.' },
+          { q: 'Temporal Dead Zone (TDZ) kya hota hai?', a: 'TDZ woh period hai jab let/const hoist toh hote hain lekin initialize nahi hote. Is period mein access karne pe ReferenceError aata hai. Scope start se lekar declaration line tak = TDZ. Ye JS ka safety feature hai — var ki tarah silently undefined return karne se better error message milta hai.' },
+          { q: 'const aur immutability mein kya fark hai?', a: 'const sirf variable ki REFERENCE lock karta hai — value/object nahi. <code>const obj = {}</code> ke baad: <code>obj.name = "Rahul"</code> works. <code>obj = {}</code> nahi. True immutability ke liye: <code>Object.freeze(obj)</code> use karo — properties bhi change nahi ho sakti. Deep freeze ke liye recursive freeze function chahiye.' },
+        ]
+      },
+
+      {
+        id: 'closures', grp: 'js', sec: 'JS Core', color: '#f97316', icon: '🔒',
+        label: 'Closures',
+        tag: 'JS Core', tagColor: 'rgba(249,115,22,.2)', tagText: '#f97316',
+        tagline: 'Function apne outer scope ke variables ko yaad rakhta hai — JS ka superpower',
+        what: `Closure tab banta hai jab ek inner function outer function ke variables ko access kare — even outer function execute hone ke baad. Function apne lexical environment ke saath bundle hota hai.`,
+        why: `Closures data privacy enable karte hain (private variables), state preserve karte hain, factory functions banate hain, aur module pattern implement karte hain. React hooks internally closures use karte hain (useState, useEffect).`,
+        when: `Counter functions, private variables, event handlers mein state, factory functions, memoization, currying, module pattern implement karte waqt.`,
+        where: `Bank account simulation, counter apps, rate limiter, debounce/throttle functions, React hooks ka internal implementation, caching functions.`,
+        how: `Outer function ke andar inner function banao jo outer variables use kare, inner function ko return karo. Inner function closure ban jaata hai.`,
+        warn: `Memory leaks ho sakti hain — closures large objects unnecessarily hold kar sakte hain. Unused closures nullify karo. Node.js mein callback hell avoid karo.`,
+        tip: `React mein: <code>useEffect</code> ke andar jo values capture hoti hain woh snapshot hain — stale closure problem isi se hoti hai! Isliye dependency array important hai.`,
+        code: `// Basic Closure
+function outerFn() {
+  let count = 0;               // Private variable!
+
+  return function innerFn() {
+    count++;
+    return count;
+  };
+}
+
+const counter = outerFn();    // outerFn finish ho gayi
+console.log(counter());        // 1 — count yaad hai!
+console.log(counter());        // 2
+console.log(counter());        // 3
+
+// Real World: Private Bank Account
+function createAccount(initialBalance) {
+  let balance = initialBalance; // Private — direct access nahi!
+
+  return {
+    deposit: (amount) => { balance += amount; return balance; },
+    withdraw: (amount) => {
+      if (amount > balance) throw new Error('Insufficient funds!');
+      balance -= amount;
+      return balance;
+    },
+    getBalance: () => balance,  // Read-only access
+  };
+}
+
+const acc = createAccount(1000);
+acc.deposit(500);              // 1500
+acc.withdraw(200);             // 1300
+console.log(acc.getBalance()); // 1300
+// console.log(balance);       // ❌ ReferenceError — private!
+
+// Factory Function with Closure
+function createMultiplier(factor) {
+  return (number) => number * factor; // factor captured!
+}
+
+const double = createMultiplier(2);
+const triple = createMultiplier(3);
+console.log(double(5));  // 10
+console.log(triple(5));  // 15
+
+// IIFE — Immediately Invoked Function Expression
+const result = (function() {
+  let private = 'secret';
+  return { getSecret: () => private };
+})();
+console.log(result.getSecret()); // 'secret'`,
+        qa: [
+          { q: 'Closure kya hai? Simple example ke saath explain karo.', a: 'Closure = function + uska lexical environment. Jab inner function outer function ke variables access kare even after outer function return ho jaaye. Example: <code>counter()</code> function <code>count</code> variable remember karta hai. Practical uses: React useState internally closure hai, event handlers state capture karte hain, setTimeout mein loop variable capture.' },
+          { q: 'Closure aur Scope mein fark?', a: '<b>Scope</b> = static concept — variables ka accessible range (lexical scope = code likhte waqt decide). <b>Closure</b> = dynamic mechanism — function runtime pe outer variables ko memory mein hold karta hai. Har function apna scope chain banata hai. Closure = function + scope chain snapshot.' },
+          { q: 'Stale closure kya hai aur React mein kab hota hai?', a: 'Stale closure = function purani value capture karta hai. React mein: <code>useEffect(fn, [])</code> mein fn mount time ki values capture karta hai — state update hone ke baad bhi purani value use karta hai. Fix: dependency array mein wo values daalo jo closure use kare. Ya functional update pattern: <code>setCount(prev => prev + 1)</code> — latest value milti hai.' },
+        ]
+      },
+
+      {
+        id: 'hoisting', grp: 'js', sec: 'JS Core', color: '#22d3ee', icon: '⬆️',
+        label: 'Hoisting',
+        tag: 'JS Core', tagColor: 'rgba(34,211,238,.2)', tagText: '#22d3ee',
+        tagline: 'JS declarations ko execution se pehle top pe le jaata hai — samjho kya hoist hota hai',
+        what: `Hoisting = JavaScript engine ka declarations ko scope ke top par le jaana during compilation phase. Sirf declaration hoist hoti hai, initialization nahi.`,
+        why: `Hoisting ke baare mein jaanna zaroori hai: 1) Unexpected undefined debug karna. 2) Function declarations kaise kaam karti hain. 3) var vs let/const behavior samajhna. Ye JS ka internal mechanism hai.`,
+        when: `Jab bhi unexpected <code>undefined</code> ya function before declaration call karo aur samajhna ho kyun kaam kiya/nahi kiya. Legacy code read karte waqt.`,
+        where: `var declarations, function declarations (fully hoisted), let/const (TDZ), class declarations (TDZ).`,
+        how: `JS compiler pehle code scan karta hai, declarations top pe le jaata hai. Runtime pe initialization wahi hoti hai jahan likha hai.`,
+        warn: `Function expressions (<code>const fn = () => {}</code>) hoist NAHI hote! Sirf function declarations hoti hain. Ye interview ka common trap hai.`,
+        tip: `Mental model: JS code do passes mein chalta hai — 1) Compilation (declarations hoist). 2) Execution (line by line). Isi wajah se function declaration pehle call ho sakti hai.`,
+        code: `// Function Declaration — Fully Hoisted ✅
+sayHello();                    // Works! "Hello!"
+function sayHello() {
+  console.log("Hello!");
+}
+
+// Function Expression — NOT hoisted ❌
+// greet();                    // TypeError: greet is not a function
+const greet = () => console.log("Hi!");
+greet();                       // Works after declaration
+
+// var — hoisted as undefined
+console.log(name);             // undefined (not ReferenceError!)
+var name = "Rahul";
+console.log(name);             // "Rahul"
+
+// What JS actually does internally:
+// var name;                   // Declaration hoisted
+// console.log(name);          // undefined
+// name = "Rahul";             // Initialization stays
+// console.log(name);          // "Rahul"
+
+// let/const — TDZ (Temporal Dead Zone)
+// console.log(age);           // ❌ ReferenceError
+let age = 25;
+
+// Class — also TDZ
+// const p = new Person();     // ❌ ReferenceError
+class Person { constructor() {} }
+
+// Interview TRAP — kya output aayega?
+var x = 1;
+function test() {
+  console.log(x);              // undefined (local var x hoisted!)
+  var x = 2;
+  console.log(x);              // 2
+}
+test();
+// Ye kyun? Local var x function scope ke top pe hoist hua`,
+        qa: [
+          { q: 'Hoisting kya hai aur kya-kya hoist hota hai?', a: 'Hoisting = JS engine declarations ko scope top pe le jaata hai compilation mein. <b>Kya hoist hota hai:</b> var (undefined pe), function declarations (poori function), class/let/const (TDZ mein). <b>Kya NAHI hosta:</b> initializations, function expressions, arrow functions. Key rule: declarations hoist, initializations nahi.' },
+          { q: 'Function declaration aur function expression mein hoisting difference?', a: '<b>Function declaration</b> (<code>function foo(){}</code>): fully hoisted — code mein pehle call kar sakte ho. <b>Function expression</b> (<code>const foo = function(){}</code>): const/let/var rules follow — const/let = TDZ ReferenceError, var = TypeError (undefined hai, function nahi). Best practice: declare before use — confusion avoid hoti hai.' },
+        ]
+      },
+
+      {
+        id: 'promises', grp: 'js', sec: 'Async JS', color: '#4ade80', icon: '⏳',
+        label: 'Promises & async/await',
+        tag: 'Async JS', tagColor: 'rgba(74,222,128,.2)', tagText: '#4ade80',
+        tagline: 'Async operations ko handle karne ka modern tarika — callback hell se azaadi',
+        what: `Promise = future value ka container. 3 states: Pending, Fulfilled, Rejected. async/await = Promises ke upar syntactic sugar jo code synchronous jaisa dikhata hai.`,
+        why: `Pehle callbacks the — nested callbacks "callback hell" banate the (pyramid of doom). Promises ne chaining se is problem solve ki. async/await ne code aur readable banaya — try/catch se error handling easy.`,
+        when: `Koi bhi asynchronous operation: API calls, file reading, database queries, setTimeout wrappers, third-party async libraries.`,
+        where: `<code>fetch()</code> calls, database queries, file system operations, any I/O operation, timer-based code.`,
+        how: `<code>new Promise((resolve, reject) => {})</code> banao. Ya <code>async function</code> declare karo aur <code>await</code> se wait karo. Try/catch se errors handle karo.`,
+        warn: `async/await mein <code>try/catch</code> bhoolna = unhandled promise rejection! Hamesha error handle karo. Await ke baad parallel execution block mat karo — <code>Promise.all</code> use karo.`,
+        tip: `<b>Promise.all</b> = sab parallel + ek fail toh sab fail. <b>Promise.allSettled</b> = sab ka result chahiye chahe fail ho. <b>Promise.race</b> = pehla complete. <b>Promise.any</b> = pehla successful.`,
+        code: `// Promise basics
+const fetchData = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    const success = true;
+    if (success) resolve({ name: 'Rahul', age: 25 });
+    else reject(new Error('Server error!'));
+  }, 1000);
+});
+
+fetchData
+  .then(data => console.log('Success:', data))
+  .catch(err => console.error('Error:', err))
+  .finally(() => console.log('Always runs!'));
+
+// async/await — cleaner syntax ✅
+async function getUser(id) {
+  try {
+    const response = await fetch(\`/api/users/\${id}\`);
+    if (!response.ok) throw new Error(\`HTTP \${response.status}\`);
+    const user = await response.json();
+    return user;
+  } catch (error) {
+    console.error('Fetch failed:', error);
+    throw error;  // Re-throw for caller
+  }
+}
+
+// ❌ Sequential — slow (A then B then C)
+const user = await getUser(1);
+const posts = await getPosts(1);
+const comments = await getComments(1);
+
+// ✅ Parallel — fast (A, B, C simultaneously!)
+const [user, posts, comments] = await Promise.all([
+  getUser(1),
+  getPosts(1),
+  getComments(1),
+]);
+
+// Promise.allSettled — koi fail ho toh bhi sab wait
+const results = await Promise.allSettled([
+  fetch('/api/primary'),    // Could fail
+  fetch('/api/secondary'),  // Could fail
+]);
+results.forEach(r => {
+  if (r.status === 'fulfilled') console.log('✅', r.value);
+  else console.error('❌', r.reason);
+});
+
+// Timeout using Promise.race
+function withTimeout(promise, ms) {
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('Timeout!')), ms)
+  );
+  return Promise.race([promise, timeout]);
+}`,
+        qa: [
+          { q: 'Promise aur async/await mein kya fark hai?', a: 'Promise = object (.then/.catch chaining). async/await = Promises ke upar sugar — synchronous jaisa dikhta hai. Dono same kaam karte hain. async function hamesha Promise return karta hai. Prefer async/await: readable, easy try/catch. Promise methods use karo: .all(), .race(), .allSettled() ke liye.' },
+          { q: 'Promise.all vs allSettled vs race vs any?', a: '<b>Promise.all</b>: sab resolve hone ka wait, ek reject pe sab fail. <b>Promise.allSettled</b>: sab ka result (pass/fail) chahiye. <b>Promise.race</b>: pehla jo complete kare (pass ya fail). <b>Promise.any</b>: pehla jo successfully resolve kare. Use: parallel API calls = Promise.all. Independent operations = allSettled. Timeout = race. Fastest server = any.' },
+          { q: 'async function kya return karta hai?', a: 'async function hamesha Promise return karta hai. Agar <code>return 5</code> likho toh actually <code>return Promise.resolve(5)</code> ho jaata hai. Agar throw karo toh <code>Promise.reject(error)</code>. Isliye await karna padta hai async function ke result ke liye.' },
+        ]
+      },
+
+      {
+        id: 'event_loop', grp: 'js', sec: 'Async JS', color: '#60a5fa', icon: '🔄',
+        label: 'Event Loop',
+        tag: 'Async JS', tagColor: 'rgba(96,165,250,.2)', tagText: '#60a5fa',
+        tagline: 'JS single-threaded hai phir bhi async handle karta hai — Event Loop ka jaadu samjho',
+        what: `Event Loop = JS ka mechanism jo single thread pe async code handle karta hai. Call Stack (sync code), Web APIs (async), Microtask Queue (Promises), Macrotask Queue (setTimeout).`,
+        why: `JS ek thread pe chalti hai — event loop isko non-blocking banata hai. Network calls, timers ko background mein handle karta hai jabki main thread free rehti hai UI ke liye.`,
+        when: `Async execution order debug karne ke liye, setTimeout vs Promise priority samajhne ke liye, performance optimization ke liye, Node.js code likhte waqt.`,
+        where: `setTimeout ordering, Promise vs setTimeout priority, animation loops, Node.js server handling, browser event handling.`,
+        how: `Call Stack khali ho → Microtasks queue drain karo (sab) → Ek Macrotask run karo → Render → Repeat.`,
+        warn: `Microtasks (Promises) hamesha macrotasks (setTimeout) se pehle run hoti hain! <code>setTimeout(fn, 0)</code> ka matlab 0ms delay nahi — call stack + microtasks clear hone ke baad.`,
+        tip: `Order: Sync code → ALL microtasks (Promise.then, queueMicrotask) → browser render → ek macrotask (setTimeout oldest) → repeat. Isi wajah se infinite microtask loop browser freeze kar deta hai.`,
+        code: `// Event Loop order samjho
+console.log('1 - Sync');
+
+setTimeout(() => console.log('2 - Macrotask'), 0);
+
+Promise.resolve().then(() => console.log('3 - Microtask'));
+
+console.log('4 - Sync');
+
+// Output: 1, 4, 3, 2
+// Kyun? Sync → Microtasks → Macrotasks
+
+// Detailed breakdown
+console.log('START');                    // Sync
+
+setTimeout(() => {
+  console.log('setTimeout');            // Macrotask queue
+}, 0);
+
+Promise.resolve()
+  .then(() => {
+    console.log('Promise 1');           // Microtask queue
+    // Nayi microtask add ho rahi hai!
+    return Promise.resolve();
+  })
+  .then(() => console.log('Promise 2')); // Microtask queue
+
+queueMicrotask(() => {
+  console.log('queueMicrotask');        // Microtask queue
+});
+
+console.log('END');                     // Sync
+
+// Output order:
+// START → END → Promise 1 → queueMicrotask → Promise 2 → setTimeout
+
+// Main Thread Blocking — AVOID!
+// ❌ UI freeze karta hai
+function heavyWork() {
+  for (let i = 0; i < 1e9; i++) {}    // Blocks 5+ seconds!
+}
+
+// ✅ Chunks mein karo — event loop ko breathe karne do
+function processChunk(items, index = 0) {
+  if (index >= items.length) return;
+  processItem(items[index]);
+  // setTimeout 0 = yield to event loop
+  setTimeout(() => processChunk(items, index + 1), 0);
+}
+
+// ✅ Web Worker — separate thread!
+const worker = new Worker('./heavy.js');
+worker.postMessage(data);
+worker.onmessage = e => updateUI(e.data);`,
+        qa: [
+          { q: 'Event Loop step by step explain karo.', a: '1) Sync code run karo (Call Stack). 2) Sab Microtasks drain karo (Promise.then, queueMicrotask, MutationObserver). 3) Browser render (60fps ke liye). 4) Ek Macrotask run karo (setTimeout/setInterval oldest). 5) Wapas Step 2. Key: Microtasks saari pehle, phir sirf ek macrotask, phir render.' },
+          { q: 'setTimeout(fn, 0) immediately kyun nahi run hota?', a: 'setTimeout(fn, 0) macrotask queue mein daalta hai. Pehle: current sync code complete + sab microtasks run. Phir macrotask run hota hai. Actual delay = current execution + microtasks + browser minimum (1-4ms). Isliye "0ms" kabhi actually 0 nahi. Use case: <code>setTimeout(fn, 0)</code> = main thread ko yield karna — UI update hone do.' },
+        ]
+      },
+
+      {
+        id: 'es6_features', grp: 'js', sec: 'ES6+', color: '#fb923c', icon: '✨',
+        label: 'ES6 Core Features',
+        tag: 'ES6+', tagColor: 'rgba(251,146,60,.2)', tagText: '#fb923c',
+        tagline: 'Arrow functions, destructuring, spread, template literals — modern JS ki neenv',
+        what: `ES6 (ECMAScript 2015) ne JS ko transform kiya: Arrow functions, Destructuring, Template Literals, Spread/Rest operators, Default parameters, Classes, Modules, let/const, Symbols, Iterators/Generators.`,
+        why: `ES5 verbose tha — bahut boilerplate code likhna padta tha. ES6 ne development faster, readable aur less error-prone banaya. Ye features React mein har jagah milte hain.`,
+        when: `Hamesha! Modern JavaScript development mein ye sab daily use hote hain. React components, API calls, array manipulations — sab mein.`,
+        where: `React components, utility functions, API service files, state management, any modern JavaScript file.`,
+        how: `Arrow functions: <code>const fn = (a) => a * 2</code>. Destructuring: <code>const {name} = obj</code>. Spread: <code>[...arr1, ...arr2]</code>. Template literals: <code>\`Hello \${name}\`</code>.`,
+        warn: `Arrow functions ka apna <code>this</code> nahi hota — outer scope ka <code>this</code> use karte hain. Object methods mein arrow function se <code>this</code> bug ho sakta hai!`,
+        tip: `Optional chaining (<code>?.</code>) aur Nullish coalescing (<code>??</code>) ES2020 features hain — bahut common hain production code mein. <code>??</code> = sirf null/undefined replace, <code>||</code> = falsy sab replace.`,
+        code: `// 1. Arrow Functions
+const add = (a, b) => a + b;              // Implicit return
+const greet = name => \`Hi \${name}!\`;     // Single param
+const getObj = () => ({ id: 1 });          // Object return
+
+// this difference — important!
+const timer = {
+  seconds: 0,
+  start() {
+    setInterval(() => {
+      this.seconds++;  // ✅ Arrow — lexical this (timer object)
+    }, 1000);
+  }
+};
+
+// 2. Destructuring
+const user = { name: 'Rahul', age: 25, city: 'Mumbai' };
+const { name, age, city: location = 'Unknown' } = user;
+const { name: n, ...rest } = user;         // Rest — { age, city }
+
+const colors = ['red', 'green', 'blue'];
+const [primary, , tertiary] = colors;      // Skip middle
+
+// Function params destructuring
+function displayUser({ name, age = 0 }) {
+  return \`\${name} (\${age})\`;
+}
+
+// 3. Spread & Rest
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5];             // [1,2,3,4,5]
+const updatedUser = { ...user, age: 26 }; // Immutable update!
+
+function sum(...numbers) {                 // Rest — all args
+  return numbers.reduce((a, b) => a + b, 0);
+}
+sum(1, 2, 3, 4, 5);  // 15
+
+// 4. Template Literals
+const html = \`
+  <div class="user">
+    <h1>\${user.name}</h1>
+    <p>Age: \${user.age}</p>
+    <p>Status: \${user.age >= 18 ? 'Adult' : 'Minor'}</p>
+  </div>
+\`;
+
+// 5. Default Parameters
+function createUser(name, role = 'user', active = true) {
+  return { name, role, active };  // Shorthand property!
+}
+
+// 6. Optional Chaining & Nullish Coalescing (ES2020)
+const street = user?.address?.street;          // undefined (not error)
+const port = config?.port ?? 3000;             // 3000 if null/undefined
+const display = user?.name ?? 'Anonymous';`,
+        qa: [
+          { q: 'Arrow function aur regular function mein kya fark hai?', a: '1) <b>this</b>: Arrow = lexical (outer this), Regular = dynamic (call site). 2) <b>arguments</b>: Arrow mein nahi hota. 3) <b>Constructor</b>: Arrow ko new nahi kar sakte. 4) <b>Implicit return</b>: Arrow mein one-liner pe possible. Use arrow for: callbacks, array methods, React components. Avoid for: object methods, prototype methods (this issue).' },
+          { q: 'Spread vs Rest operator?', a: 'Same syntax (<code>...</code>) different context mein. <b>Spread</b>: values "bahar nikalo" — array/object copy/merge/pass. <b>Rest</b>: multiple values "andar lo" — function params mein. Rule: Spread = expanding, Rest = collecting. Interview example: <code>function fn(first, ...rest)</code> — first = 1st arg, rest = baaki sab array mein.' },
+          { q: 'Optional chaining (?.) aur nullish coalescing (??) kya hai?', a: '<b>Optional chaining</b> (<code>?.</code>): null/undefined pe property access karo — error nahi, undefined milta hai. <code>user?.address?.city</code>. <b>Nullish coalescing</b> (<code>??</code>): sirf null/undefined ko replace karo (0, "", false ko nahi — ye || se fark hai). <code>val ?? "default"</code> — sirf null/undefined pe "default" aata hai. Combined: <code>user?.name ?? "Anonymous"</code>.' },
+        ]
+      },
+
+      {
+        id: 'prototype', grp: 'js', sec: 'JS OOP', color: '#e879f9', icon: '🔗',
+        label: 'Prototype & Class',
+        tag: 'JS OOP', tagColor: 'rgba(232,121,249,.2)', tagText: '#e879f9',
+        tagline: 'JS mein inheritance prototype chain se hoti hai — class iske upar syntactic sugar hai',
+        what: `Har JS object mein ek hidden <code>[[Prototype]]</code> property hai jo doosre object ko point karti hai. Ye chain "prototype chain" hai. ES6 <code>class</code> is prototype mechanism ke upar readable syntax hai.`,
+        why: `Prototype chain code reuse enable karta hai — ek object doosre ke properties/methods inherit karta hai. <code>Array.prototype.map</code>, <code>Object.prototype.toString</code> — ye sab isi se milte hain.`,
+        when: `Custom data structures, inheritance hierarchy banate waqt, OOP patterns implement karte waqt, built-in methods extend karte waqt.`,
+        where: `Custom classes, React class components (legacy), utility classes, design patterns (Factory, Observer, Strategy).`,
+        how: `<code>Object.create(proto)</code> se create karo. Ya <code>class</code> keyword se — <code>extends</code> se inherit karo, <code>super()</code> se parent constructor call karo.`,
+        warn: `Prototype modification (monkey patching) global side effects create karta hai — production mein avoid karo. <code>Array.prototype.myMethod = fn</code> = dangerous!`,
+        tip: `<code>typeof null === 'object'</code> — JS ka famous bug. Null check ke liye: <code>val === null</code> use karo. <code>instanceof</code> prototype chain check karta hai.`,
+        code: `// Prototype chain
+const animal = {
+  breathes: true,
+  eat() { return \`\${this.name} kha raha hai!\`; }
+};
+
+const dog = Object.create(animal); // dog's [[Proto]] = animal
+dog.name = 'Tommy';
+dog.bark = function() { return 'Woof!'; };
+
+console.log(dog.breathes);    // true (inherited from animal!)
+console.log(dog.eat());       // "Tommy kha raha hai!"
+console.log(dog.bark());      // "Woof!" (own method)
+
+// Prototype vs Own property
+console.log(dog.hasOwnProperty('name'));     // true (own)
+console.log(dog.hasOwnProperty('breathes')); // false (inherited)
+
+// ES6 Class — same behavior, better syntax
+class Animal {
+  constructor(name, sound) {
+    this.name = name;
+    this.sound = sound;
+  }
+
+  speak() { return \`\${this.name} says \${this.sound}!\`; }
+
+  static create(name) { return new Animal(name, 'Hmm'); }
+}
+
+class Dog extends Animal {
+  constructor(name) {
+    super(name, 'Woof'); // Parent constructor ZAROOR call karo!
+    this.type = 'domestic';
+  }
+
+  // Method override
+  speak() { return \`\${super.speak()} (and wags tail)\`; }
+
+  fetch(item) { return \`\${this.name} ne \${item} laaya!\`; }
+}
+
+const tommy = new Dog('Tommy');
+console.log(tommy.speak());  // "Tommy says Woof! (and wags tail)"
+console.log(tommy instanceof Dog);    // true
+console.log(tommy instanceof Animal); // true (chain mein hai)
+
+// Proof: class is just prototype
+console.log(typeof Dog); // "function" — not a real class!`,
+        qa: [
+          { q: 'Prototype chain kaise kaam karti hai?', a: 'Har object mein [[Prototype]] link hai dusre object tak. Property access pe: 1) Object khud check karo. 2) [[Prototype]] pe jaao. 3) Chain walk karo. 4) null mile → undefined. Array.prototype.map, String.prototype.trim — ye sab is chain se milte hain. new keyword: nayi object + [[Prototype]] = Constructor.prototype.' },
+          { q: 'class ES6 mein prototype se alag hai?', a: 'Bilkul NAHI — class sirf syntactic sugar hai! <code>class Person{}</code> = <code>function Person(){}</code> + prototype methods. <code>extends</code> = Object.setPrototypeOf. <code>super()</code> = parent constructor. Proof: <code>typeof Person === "function"</code>. Andar wahi prototype chain kaam karti hai.' },
+        ]
+      },
+
+      {
+        id: 'this_kw', grp: 'js', sec: 'JS Core', color: '#fbbf24', icon: '👆',
+        label: 'this Keyword',
+        tag: 'JS Core', tagColor: 'rgba(251,191,36,.2)', tagText: '#fbbf24',
+        tagline: 'this ka value call site pe depend karta hai — JS ka sabse confusing concept',
+        what: `<code>this</code> = current execution context. Value depend karta hai HOW function call hoti hai, WHERE nahi (except arrow functions). 4 rules hain this determine karne ke liye.`,
+        why: `this samajhna zaroori hai: object methods, event handlers, class methods, call/apply/bind use karte waqt. Galat this = silent bugs jo debug karna mushkil hai.`,
+        when: `Class methods mein, event listeners mein, setTimeout callbacks mein (this lose hoti hai!), prototype methods mein.`,
+        where: `Object methods, React class component methods (legacy), event handlers, constructor functions.`,
+        how: `4 rules (priority order): 1) new keyword. 2) call/apply/bind. 3) Object method (dot before function). 4) Default (global/undefined strict mode). Arrow = always parent's this.`,
+        warn: `setTimeout callback mein regular function use karo toh this = window/undefined ho jaata hai! Arrow function ya <code>.bind(this)</code> use karo fix ke liye.`,
+        tip: `Trick to remember: <b>C-A-B-N</b> (priority): Call/Apply > Bind > New > Default. Arrow functions ki koi rule nahi — hamesha lexical this.`,
+        code: `// 1. Default — global/undefined
+function show() {
+  console.log(this); // window (non-strict) / undefined (strict)
+}
+
+// 2. Object method — this = object
+const person = {
+  name: 'Rahul',
+  greet() { return \`Hi, I am \${this.name}\`; }
+};
+person.greet(); // "Hi, I am Rahul"
+
+// ❌ Method extraction — this LOST!
+const fn = person.greet;
+fn(); // undefined.name → error!
+
+// 3. call, apply, bind — manually set this
+function introduce(city, country) {
+  return \`\${this.name} from \${city}, \${country}\`;
+}
+
+introduce.call(person, 'Mumbai', 'India');       // immediate, individual args
+introduce.apply(person, ['Mumbai', 'India']);     // immediate, array args
+const bound = introduce.bind(person, 'Delhi');   // new function, fixed this
+bound('India'); // "Rahul from Delhi, India"
+
+// 4. new — this = new object
+function Car(model) {
+  this.model = model;
+  this.type = 'vehicle';
+}
+const car = new Car('Swift'); // this = nayi Car object
+
+// 5. Arrow function — lexical this ✅
+class Timer {
+  constructor() { this.seconds = 0; }
+
+  start() {
+    // ❌ Regular: this becomes undefined!
+    // setInterval(function() { this.seconds++; }, 1000);
+
+    // ✅ Arrow: this = Timer instance (lexical)
+    setInterval(() => {
+      this.seconds++;
+      console.log(this.seconds);
+    }, 1000);
+  }
+}
+
+// 6. React class component — bind example
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this); // Bind karo!
+  }
+  handleClick() { console.log(this.state); }       // Now works
+  // OR use arrow: handleClick = () => {...}        // Auto-bind
+}`,
+        qa: [
+          { q: 'this determination ke 4 rules kya hain?', a: 'Priority order: 1) <b>new</b>: this = nayi object. 2) <b>call/apply/bind</b>: manually set. 3) <b>Object method</b>: object before dot. 4) <b>Default</b>: undefined (strict) ya global. Arrow functions ka apna this nahi — lexically outer scope ka this use karte hain. Arrow pe call/apply/bind koi effect nahi dalta.' },
+          { q: 'call, apply, bind mein kya fark hai?', a: '<b>call</b>(thisArg, arg1, arg2): immediately call, args individually. <b>apply</b>(thisArg, [arg1, arg2]): immediately call, args as array. <b>bind</b>(thisArg): new function return karta hai permanently bound this ke saath — baad mein call karo. Memory trick: <b>C</b>all = <b>C</b>omma (individual), <b>A</b>pply = <b>A</b>rray, <b>B</b>ind = <b>B</b>aad mein.' },
+        ]
+      },
+
+      {
+        id: 'array_methods', grp: 'js', sec: 'Array Methods', color: '#34d399', icon: '📋',
+        label: 'Array Methods',
+        tag: 'Array Methods', tagColor: 'rgba(52,211,153,.2)', tagText: '#34d399',
+        tagline: 'map, filter, reduce, find — functional array manipulation interview must-know',
+        what: `JS arrays ke built-in higher-order methods: <code>map()</code> (transform), <code>filter()</code> (subset), <code>reduce()</code> (accumulate), <code>find()</code> (first match), <code>some()</code>/<code>every()</code> (boolean), <code>flat()</code>, <code>sort()</code>.`,
+        why: `Ye methods pure functions hain — original array modify nahi karte, nayi return karte hain. Functional programming style enable karta hai — readable, chainable, predictable.`,
+        when: `Array transform karna, filter karna, aggregate karna — for loops ki jagah. React mein list render karna (map), search (filter), totals (reduce).`,
+        where: `React component lists rendering, search/filter UI, data transformation, sorting, API response processing.`,
+        how: `Array pe method call karo, callback pass karo. Chaining possible hai: <code>arr.filter(...).map(...).reduce(...)</code>.`,
+        warn: `<code>reduce()</code> confusing lagta hai simple cases mein. <code>sort()</code> by default strings compare karta hai — numbers ke liye comparator do: <code>.sort((a,b) => a-b)</code>.`,
+        tip: `<code>flatMap()</code> = map + flat in one step. <code>Array.from()</code> iterable ko array mein convert karta hai. <code>findIndex()</code> index return karta hai, <code>find()</code> element.`,
+        code: `const products = [
+  { id: 1, name: 'Laptop', price: 50000, category: 'tech', inStock: true },
+  { id: 2, name: 'Phone', price: 30000, category: 'tech', inStock: false },
+  { id: 3, name: 'Book', price: 500, category: 'education', inStock: true },
+  { id: 4, name: 'Tablet', price: 25000, category: 'tech', inStock: true },
+];
+
+// map() — transform, same length
+const names = products.map(p => p.name);
+// ['Laptop', 'Phone', 'Book', 'Tablet']
+
+const withDiscount = products.map(p => ({
+  ...p,
+  discountedPrice: p.price * 0.9
+}));
+
+// filter() — subset, condition match
+const techProducts = products.filter(p => p.category === 'tech');
+const available = products.filter(p => p.inStock);
+const expensive = products.filter(p => p.price > 20000);
+
+// reduce() — accumulate to single value
+const total = products.reduce((sum, p) => sum + p.price, 0); // 105500
+
+// Group by category
+const grouped = products.reduce((acc, p) => {
+  acc[p.category] = acc[p.category] || [];
+  acc[p.category].push(p);
+  return acc;
+}, {}); // { tech: [...], education: [...] }
+
+// find() — pehla match
+const laptop = products.find(p => p.name === 'Laptop');
+
+// some() / every()
+const hasExpensive = products.some(p => p.price > 40000);   // true
+const allInStock = products.every(p => p.inStock);           // false
+
+// sort() — numbers ke liye comparator dena zaroori!
+const byPrice = [...products].sort((a, b) => a.price - b.price); // Ascending
+const byName = [...products].sort((a, b) => a.name.localeCompare(b.name));
+
+// Chaining — powerful!
+const result = products
+  .filter(p => p.category === 'tech' && p.inStock)
+  .map(p => ({ name: p.name, price: p.price }))
+  .sort((a, b) => a.price - b.price);
+
+// flatMap()
+const sentences = ['Hello World', 'Jai Hind'];
+const words = sentences.flatMap(s => s.split(' ')); // ['Hello','World','Jai','Hind']`,
+        qa: [
+          { q: 'map vs filter vs reduce — kab kya use karein?', a: '<b>map</b>: har element transform karo, same count nayi array. <b>filter</b>: condition match karo, smaller array. <b>reduce</b>: sab milaa ke ek value (sum, object, string). <b>forEach</b>: sirf side effects (no return). <b>find</b>: pehla matching element. <b>some/every</b>: boolean condition check. React mein: JSX return karne ke liye hamesha map.' },
+          { q: 'reduce() se map() aur filter() kaise banate hain?', a: '<code>map</code> using reduce: <code>arr.reduce((acc, x) => [...acc, fn(x)], [])</code>. <code>filter</code> using reduce: <code>arr.reduce((acc, x) => condition(x) ? [...acc, x] : acc, [])</code>. Ye interview mein impressive answer hai — dikhata hai reduce ki power samjhi hai. Production mein native map/filter prefer karo — more readable.' },
+        ]
+      },
+
+      {
+        id: 'modules', grp: 'js', sec: 'ES6+', color: '#a3e635', icon: '📦',
+        label: 'ES6 Modules',
+        tag: 'ES6+', tagColor: 'rgba(163,230,53,.2)', tagText: '#a3e635',
+        tagline: 'import/export — code ko organize karo, tree shaking enable karo',
+        what: `ES6 Modules = separate files mein code organize karo explicit import/export ke saath. Har module apna scope rakhta hai — global namespace pollute nahi karta. Static analysis tree shaking enable karta hai.`,
+        why: `Large codebases ko manage karna mushkil hota hai bina modules ke. Modules provide karte hain: encapsulation, reusability, dependency management, aur build optimization (tree shaking).`,
+        when: `Hamesha! Modern React projects mein har component, utility, aur service apne module mein hota hai.`,
+        where: `React components, utility functions, API calls, constants, types, hooks — sab ko modules mein organize karo.`,
+        how: `Named export: <code>export const fn = () => {}</code>. Default export: <code>export default Component</code>. Import: <code>import { fn } from './file'</code> ya <code>import Component from './file'</code>.`,
+        warn: `Circular imports se runtime errors aate hain. Default export rename ho sakta hai import mein — confusion ho sakta hai. Named exports zyada explicit hain.`,
+        tip: `Barrel exports pattern (index.js): ek jagah se sab import karo. <code>import { Button, Input } from './components'</code> — internally index.js sab re-export karta hai.`,
+        code: `// math.js — Named Exports (multiple)
+export const PI = 3.14159;
+export const add = (a, b) => a + b;
+export const multiply = (a, b) => a * b;
+export function subtract(a, b) { return a - b; }
+
+// user.js — Default Export (sirf ek per file)
+export default class User {
+  constructor(name) { this.name = name; }
+  greet() { return \`Namaste \${this.name}!\`; }
+}
+
+// Importing
+import User from './user.js';                  // Default (any name)
+import { add, PI } from './math.js';           // Named (exact name)
+import { add as sum } from './math.js';        // Rename
+import * as MathUtils from './math.js';        // All named
+import User, { add } from './combined.js';     // Both together
+
+// Re-exporting — Barrel pattern (components/index.js)
+export { Button } from './Button';
+export { Input } from './Input';
+export { Modal } from './Modal';
+export { default as Card } from './Card';      // Default → named
+
+// Elsewhere:
+import { Button, Input, Modal, Card } from './components';
+
+// Dynamic import — Code splitting!
+const loadHeavyModule = async () => {
+  const module = await import('./heavyModule.js');
+  module.doSomething();
+};
+
+// React.lazy ke saath
+const Dashboard = lazy(() => import('./Dashboard'));
+
+// CommonJS vs ES Modules
+const fs = require('fs');          // CommonJS — synchronous
+module.exports = { myFn };         // CommonJS export
+
+import fs from 'fs';               // ESM — static analysis
+export { myFn };                   // ESM export`,
+        qa: [
+          { q: 'Default export vs Named export kab use karein?', a: '<b>Named exports</b>: multiple exports per file, exact name import karna padta hai, better autocomplete, tree shaking efficient, refactoring safe. <b>Default export</b>: ek file ek main thing, import mein any name de sakte. Best practice: Named exports prefer karo. React: components named export karo. Class/Object: can be default. Rule: agar file ek hi cheez export kare → default. Multiple → named.' },
+          { q: 'CommonJS aur ES Modules mein main differences?', a: '<b>CommonJS</b>: synchronous (runtime loading), dynamic (conditions mein use), Node.js default. <b>ES Modules</b>: static analysis (compile time), tree shakeable, async loading, browser native. Key: require() kisi bhi condition mein likh sakte ho. import hamesha top-level static hona chahiye. ES Modules future hai — Node.js bhi .mjs ya "type":"module" se support karta hai.' },
+        ]
+      },
+
+      // ────────────────────────────────────────────
+      // REACT CORE
+      // ────────────────────────────────────────────
+      {
+        id: 'jsx_vdom', grp: 'react', sec: 'React Core', color: '#38bdf8', icon: '⚛️',
+        label: 'JSX & Virtual DOM',
+        tag: 'React Core', tagColor: 'rgba(56,189,248,.2)', tagText: '#38bdf8',
+        tagline: 'JSX = JS mein HTML — Virtual DOM React ka performance secret',
+        what: `JSX = JavaScript XML — HTML-like syntax jo React.createElement() calls mein compile hoti hai. Virtual DOM = real DOM ka lightweight JS object representation jo efficient updates enable karta hai.`,
+        why: `JSX se components declaratively likhna easy hai. Virtual DOM se React minimal actual DOM updates karta hai — direct DOM manipulation se fast hai kyunki JS operations DOM operations se tez hain.`,
+        when: `Hamesha React mein JSX use karo. Virtual DOM React ka internal mechanism hai — automatically kaam karta hai.`,
+        where: `Har React component JSX return karta hai. Reconciliation React ke andar automatically hoti hai.`,
+        how: `JSX likhte hain → Babel compile karta hai → React.createElement() → Virtual DOM tree → Diff → Real DOM update.`,
+        warn: `JSX mein: <code>class</code> nahi → <code>className</code>, <code>for</code> nahi → <code>htmlFor</code>, self-closing tags zaroori (<code>&lt;br /&gt;</code>), ek root element ya Fragment.`,
+        tip: `Fragment (<code>&lt;&gt;&lt;/&gt;</code>) = extra div nahi, DOM clean rehta hai. Table/flex layouts mein Fragment important hai — extra div structure break karta hai.`,
+        code: `// JSX → React.createElement compilation
+const element = <h1 className="title">Hello {name}</h1>;
+// Becomes:
+React.createElement('h1', { className: 'title' }, 'Hello ', name);
+
+// JSX Rules & Patterns
+function UserCard({ user, isAdmin }) {
+  const items = ['React', 'Vue', 'Angular'];
+
+  return (
+    <div className="card">           {/* class → className */}
+      <h2>{user.name}</h2>           {/* JS expressions {} */}
+
+      {/* Conditional Rendering */}
+      {isAdmin && <span>Admin</span>}
+      {user.active ? <Online /> : <Offline />}
+
+      {/* List Rendering — key ZAROORI */}
+      <ul>
+        {items.map((item, i) => (
+          <li key={i}>{item}</li>    {/* Stable unique key prefer */}
+        ))}
+      </ul>
+
+      {/* Self-closing tags */}
+      <img src={user.avatar} alt={user.name} />
+      <br />
+      <input type="email" value={user.email} onChange={() => {}} />
+
+      {/* Style — object hai string nahi */}
+      <p style={{ color: 'red', fontSize: 16 }}>Styled</p>
+
+      {/* Events — camelCase */}
+      <button onClick={() => alert('Hi')}>Click</button>
+    </div>
+  );
+}
+
+// Fragment — no extra DOM node
+function Layout() {
+  return (
+    <>
+      <Header />
+      <Main />
+      <Footer />
+    </>
+  );
+}
+
+// Virtual DOM Process:
+// 1. State changes
+// 2. New Virtual DOM tree create
+// 3. Diff with previous (reconciliation)
+// 4. Calculate minimal changes
+// 5. Apply to real DOM (commit)`,
+        qa: [
+          { q: 'JSX kya hai? HTML se kaise alag hai?', a: 'JSX = syntactic sugar for React.createElement(). HTML nahi — JavaScript hai. Differences: className (not class), htmlFor (not for), camelCase events (onClick), self-closing required, expressions {} mein, style as object. JSX type-safe hai (TypeScript), XSS se safe (auto-escaping — dangerouslySetInnerHTML explicit hai).' },
+          { q: 'Virtual DOM kya hai aur kyun faster hai?', a: 'Virtual DOM = real DOM ka lightweight JS object. Process: state change → new VDOM → diff with prev (O(n) algorithm) → minimal real DOM updates. Why faster: Real DOM manipulation expensive (layout/paint triggers). JS object comparison fast. Batch updates ek saath. Note: React 18 mein Concurrent Mode se rendering interruptible hai — aur better performance.' },
+        ]
+      },
+
+      {
+        id: 'useState_useEffect', grp: 'react', sec: 'React Hooks', color: '#818cf8', icon: '🪝',
+        label: 'useState & useEffect',
+        tag: 'React Hooks', tagColor: 'rgba(129,140,248,.2)', tagText: '#818cf8',
+        tagline: 'React ke do sabse fundamental hooks — state aur side effects manage karo',
+        what: `<code>useState</code> functional components ko state deta hai. <code>useEffect</code> side effects handle karta hai — API calls, subscriptions, DOM manipulation, timers — render ke baad.`,
+        why: `Class components mein verbose lifecycle methods the. Hooks ne simpler API diya: useState = component ki memory, useEffect = "render ke baad yeh karo."`,
+        when: `useState: koi bhi component state ke liye. useEffect: API fetch, event listeners, subscriptions, timers, external library integration.`,
+        where: `Har functional React component mein. Login forms, data fetch, real-time updates, animation triggers.`,
+        how: `<code>const [value, setValue] = useState(initial)</code>. <code>useEffect(() => { /* side effect */ return () => { /* cleanup */ }; }, [deps])</code>.`,
+        warn: `useEffect mein dependency array bhoolna = infinite loop ya stale data. Cleanup return karna bhoolna = memory leaks. async function directly useEffect mein nahi — wrapper banao.`,
+        tip: `Functional update pattern: <code>setCount(prev => prev + 1)</code> — hamesha latest value milti hai. Stale closure se bachata hai.`,
+        code: `import { useState, useEffect } from 'react';
+
+// useState — Component State
+function Counter() {
+  const [count, setCount] = useState(0);
+  const [user, setUser] = useState(null);
+
+  // Functional update — safe, latest value guaranteed
+  const increment = () => setCount(prev => prev + 1);
+
+  // Object state — always spread!
+  const updateCity = (city) => setUser(prev => ({ ...prev, city }));
+
+  return <button onClick={increment}>Count: {count}</button>;
+}
+
+// useEffect — 3 forms
+function DataComponent({ userId }) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Form 1: No deps — every render ke baad run (rare use)
+  useEffect(() => { console.log('Rendered!'); });
+
+  // Form 2: Empty deps — only on mount (componentDidMount)
+  useEffect(() => {
+    console.log('Mounted!');
+    initAnalytics();
+    return () => cleanupAnalytics(); // Cleanup on unmount
+  }, []);
+
+  // Form 3: With deps — deps change hone pe run
+  useEffect(() => {
+    let cancelled = false; // Stale update prevent karo
+
+    async function fetchData() {
+      setLoading(true);
+      try {
+        const res = await fetch(\`/api/users/\${userId}\`);
+        const json = await res.json();
+        if (!cancelled) {    // Component still mounted?
+          setData(json);
+          setLoading(false);
+        }
+      } catch (e) {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    fetchData();
+    return () => { cancelled = true; }; // Cleanup
+  }, [userId]); // userId change pe refetch
+
+  if (loading) return <p>Loading...</p>;
+  return <div>{data?.name}</div>;
+}`,
+        qa: [
+          { q: 'useEffect dependency array ka role kya hai?', a: '<b>[] empty</b>: sirf mount pe run, unmount pe cleanup (componentDidMount). <b>[value]</b>: value change pe run (componentDidUpdate). <b>No array</b>: har render pe. Cleanup function: unmount pe ya next effect se pehle. Common bugs: 1) Deps miss = stale closures. 2) Object/array as dep = infinite loop (new reference har render). ESLint exhaustive-deps rule help karta hai.' },
+          { q: 'useState async kyun hai? Functional update kab use karein?', a: 'setState async hai — immediately update nahi hota (React batches karta hai). Problem: <code>setCount(count+1)</code> rapid click pe sirf 1 badhega (stale count). Solution: <code>setCount(prev => prev+1)</code> — always fresh value. Use functional update: previous state pe depend karo, setTimeout mein, multiple updates ek saath.' },
+        ]
+      },
+
+      {
+        id: 'custom_hooks', grp: 'react', sec: 'React Hooks', color: '#f472b6', icon: '🛠️',
+        label: 'Custom Hooks',
+        tag: 'React Hooks', tagColor: 'rgba(244,114,182,.2)', tagText: '#f472b6',
+        tagline: 'Reusable stateful logic extract karo — DRY principle React mein',
+        what: `Custom hooks = "use" prefix se start hone wale functions jo doosre hooks call kar sakti hain. Components ke beech stateful logic share karne ka tarika — HOCs aur render props se simpler.`,
+        why: `Multiple components mein same useState + useEffect pattern repeat ho raha hai? Custom hook banao! Logic reuse hota hai, components clean rehte hain, testing easy hoti hai.`,
+        when: `Jab same async/state logic 2+ components mein repeat ho. Complex component ko clean karna ho. Logic unit-testable banana ho.`,
+        where: `useFetch (API calls), useForm (forms), useLocalStorage, useDebounce, useMediaQuery, useAuth — common patterns.`,
+        how: `<code>function useName() { useState/useEffect... return values; }</code>. "use" prefix zaroori — React hooks rules apply hote hain. Component mein call karo: <code>const data = useFetch('/api')</code>.`,
+        warn: `Custom hooks state share NAHI karte — logic share karte hain. Har component ka apna state hota hai. Shared state ke liye Context ya Zustand use karo.`,
+        tip: `Custom hook ka test karna easy hai — <code>renderHook()</code> from React Testing Library use karo. Normal component testing ke rules apply hote hain.`,
+        code: `// useFetch — API call logic reuse
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setLoading(true);
+
+    fetch(url, { signal: controller.signal })
+      .then(r => { if(!r.ok) throw new Error(\`HTTP \${r.status}\`); return r.json(); })
+      .then(d => { setData(d); setLoading(false); })
+      .catch(e => {
+        if (e.name !== 'AbortError') { setError(e.message); setLoading(false); }
+      });
+
+    return () => controller.abort();  // Cleanup!
+  }, [url]);
+
+  return { data, loading, error };
+}
+
+// useDebounce
+function useDebounce(value, delay = 300) {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const timer = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  return debounced;
+}
+
+// useLocalStorage
+function useLocalStorage(key, initialValue) {
+  const [value, setValue] = useState(() => {
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch { return initialValue; }
+  });
+
+  const set = (val) => {
+    setValue(val);
+    localStorage.setItem(key, JSON.stringify(val));
+  };
+  return [value, set];
+}
+
+// USAGE — kitna clean hai!
+function SearchPage() {
+  const [query, setQuery] = useState('');
+  const debouncedQuery = useDebounce(query, 400);
+  const { data, loading, error } = useFetch(\`/api/search?q=\${debouncedQuery}\`);
+  const [history, setHistory] = useLocalStorage('searchHistory', []);
+
+  return (
+    <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search..." />
+  );
+}`,
+        qa: [
+          { q: 'Custom hook kab banana chahiye?', a: '1) Same useState+useEffect logic 2+ components mein. 2) Component ka logic complex aur long ho raha ho. 3) Logic ko isolate aur test karna ho. Examples: useFetch, useForm, useAuth, useDebounce, useMediaQuery, useWebSocket. Rule: agar "use" prefix nahi lagaya toh hooks andar use nahi kar sakte. Naming: useCamelCase.' },
+          { q: 'Custom hook aur regular function mein fark?', a: 'Regular function: hooks use nahi kar sakti. Stateless, anywhere callable. Custom hook: hooks use kar sakti hai. Stateful ho sakti hai. Sirf React components/hooks mein callable. "use" prefix required. Example: formatDate() = utility. useFormattedDate() = custom hook (agar useState/useEffect use kare).' },
+        ]
+      },
+
+      {
+        id: 'context_api', grp: 'react', sec: 'React State', color: '#fb923c', icon: '🌐',
+        label: 'Context API',
+        tag: 'React State', tagColor: 'rgba(251,146,60,.2)', tagText: '#fb923c',
+        tagline: 'Props drilling se bachao — global state share karo without props',
+        what: `Context API = React ka built-in global state solution. Component tree mein data broadcast karo — koi bhi component consume kar sakta hai bina props ke. createContext → Provider → useContext.`,
+        why: `Props drilling = parent → child → grandchild → deep component tak props pass karna sirf is liye ki kisi deep component ko chahiye. Context ise solve karta hai — data ek baar provide karo, consume wherever needed.`,
+        when: `Theme (light/dark), authentication state, language/locale, user preferences — low-frequency global state ke liye. Frequent updates pe performance degrade hoti hai.`,
+        where: `ThemeContext, AuthContext, LanguageContext — app-wide settings jo rarely change hote hain.`,
+        how: `1) <code>createContext()</code>. 2) Provider se wrap karo. 3) <code>useContext()</code> se consume karo. useMemo se value memoize karo unnecessary re-renders rokne ke liye.`,
+        warn: `Context value change hone pe SARE consumers re-render hote hain! Frequent updates ke liye Zustand prefer karo. Contexts split karo concern ke basis pe.`,
+        tip: `Custom hook banao context ke liye: <code>function useTheme() { const ctx = useContext(ThemeContext); if(!ctx) throw new Error('Must use within ThemeProvider'); return ctx; }</code> — error handling better hoti hai.`,
+        code: `import { createContext, useContext, useState, useMemo } from 'react';
+
+// 1. Context Create
+const ThemeContext = createContext(undefined);
+
+// 2. Provider — with memoized value!
+function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light');
+
+  const value = useMemo(() => ({
+    theme,
+    isDark: theme === 'dark',
+    toggleTheme: () => setTheme(t => t === 'light' ? 'dark' : 'light'),
+  }), [theme]); // Only when theme changes!
+
+  return (
+    <ThemeContext.Provider value={value}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+// 3. Custom hook — best practice
+function useTheme() {
+  const context = useContext(ThemeContext);
+  if (!context) throw new Error('useTheme must be inside ThemeProvider!');
+  return context;
+}
+
+// 4. Consumer — any component!
+function Header() {
+  const { theme, isDark, toggleTheme } = useTheme();
+  return (
+    <header style={{ background: isDark ? '#1a1a1a' : '#ffffff', color: isDark ? '#fff' : '#000' }}>
+      <button onClick={toggleTheme}>
+        {isDark ? '☀️ Light Mode' : '🌙 Dark Mode'}
+      </button>
+    </header>
+  );
+}
+
+// Auth Context example
+const AuthContext = createContext(undefined);
+
+function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+
+  const value = useMemo(() => ({
+    user,
+    isLoggedIn: !!user,
+    login: async (credentials) => { const u = await api.login(credentials); setUser(u); },
+    logout: () => { api.logout(); setUser(null); },
+  }), [user]);
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+// App Setup
+function App() {
+  return (
+    <AuthProvider>
+      <ThemeProvider>
+        <Router>...</Router>
+      </ThemeProvider>
+    </AuthProvider>
+  );
+}`,
+        qa: [
+          { q: 'Context API kab use karein aur kab nahi?', a: '<b>Use Context</b>: theme, auth, language, user preferences — rarely changing global state. <b>Avoid Context</b>: frequently updating state (form input, mouse position, timers) — har update sab consumers ko re-render. <b>Alternatives</b>: Zustand (selective subscriptions, fast), Redux (complex + devtools), Component composition (often solves props drilling without context).' },
+          { q: 'Context mein performance optimize kaise karein?', a: '1) <b>Value memoize karo</b>: <code>useMemo(() => ({...}), [deps])</code>. 2) <b>Context split karo</b>: ThemeContext alag, UserContext alag. 3) <b>State aur dispatch alag</b>: useReducer ke saath dispatch context rarely changes. 4) <b>use-context-selector library</b>: granular subscription. Problem: single context mein koi bhi value change → sab consumers re-render.' },
+        ]
+      },
+
+      {
+        id: 'react_memo', grp: 'react', sec: 'Performance', color: '#a3e635', icon: '⚡',
+        label: 'React.memo, useMemo, useCallback',
+        tag: 'Performance', tagColor: 'rgba(163,230,53,.2)', tagText: '#a3e635',
+        tagline: 'Memoization — unnecessary re-renders rokko, performance boost karo',
+        what: `<b>React.memo</b>: component memoize karo — same props pe re-render skip. <b>useMemo</b>: expensive computation ka result cache karo. <b>useCallback</b>: function reference stable rakho.`,
+        why: `Parent re-render hone pe sab children re-render hote hain by default. Memoization se: React.memo = component skip, useMemo = computation skip, useCallback = function reference same rehe (memo ke liye zaroori).`,
+        when: `React.memo: expensive child component jo same props receive karta ho. useMemo: heavy computation (filter large array, sort). useCallback: function jo React.memo child ko pass ho.`,
+        where: `List items, cards, table rows (React.memo). Data transformations, filtered lists (useMemo). Event handlers, API calls in effects (useCallback).`,
+        how: `Wrap component: <code>const Comp = React.memo(Component)</code>. Wrap value: <code>useMemo(() => compute(), [deps])</code>. Wrap function: <code>useCallback(() => fn(), [deps])</code>.`,
+        warn: `Don't over-memoize! Memo overhead exists — simple components pe counter-productive. Profile first, optimize after. useCallback without React.memo = useless.`,
+        tip: `<code>useCallback(fn, deps)</code> = <code>useMemo(() => fn, deps)</code>. Dono equivalent hain — useCallback shorthand hai functions ke liye.`,
+        code: `// React.memo — Component memoize
+const ExpensiveList = React.memo(function List({ items, onDelete }) {
+  console.log('List rendered!'); // Track renders
+  return (
+    <ul>
+      {items.map(item => (
+        <li key={item.id}>
+          {item.name}
+          <button onClick={() => onDelete(item.id)}>Delete</button>
+        </li>
+      ))}
+    </ul>
+  );
+});
+
+// Custom comparison
+const UserCard = React.memo(
+  ({ user, highlight }) => <div>{user.name}</div>,
+  (prevProps, nextProps) => prevProps.user.id === nextProps.user.id
+  // true = skip re-render, false = re-render
+);
+
+// Parent component
+function Parent() {
+  const [count, setCount] = useState(0);
+  const [items, setItems] = useState([...]);
+
+  // ✅ useCallback — stable reference for React.memo child
+  const handleDelete = useCallback((id) => {
+    setItems(prev => prev.filter(item => item.id !== id));
+  }, []); // No deps needed (using functional update)
+
+  // ✅ useMemo — expensive computation
+  const filteredItems = useMemo(() => {
+    console.log('Computing...'); // Only when items change
+    return items.filter(i => i.active).sort((a,b) => a.name.localeCompare(b.name));
+  }, [items]);
+
+  const totalPrice = useMemo(() =>
+    items.reduce((sum, i) => sum + i.price, 0),
+    [items]
+  );
+
+  return (
+    <>
+      <p>Count: {count} | Total: ₹{totalPrice}</p>
+      <button onClick={() => setCount(c => c+1)}>+</button>
+      {/* ExpensiveList won't re-render when count changes! */}
+      <ExpensiveList items={filteredItems} onDelete={handleDelete} />
+    </>
+  );
+}`,
+        qa: [
+          { q: 'React.memo, useMemo, useCallback mein kya fark hai?', a: '<b>React.memo</b>: component level — props same pe re-render skip. <b>useMemo</b>: value level — expensive computation cache. <b>useCallback</b>: function reference stable — memo + useEffect deps ke liye. Rule: React.memo bina useCallback = useless (new function reference breaks memo). useCallback bina React.memo = useless (component re-renders anyway).' },
+          { q: 'Kab memoize karna chahiye aur kab nahi?', a: '<b>Memoize karo</b>: large lists mein items, expensive compute (filter 1000+ items), child jo often same props pata hai. <b>Memoize mat karo</b>: simple components, props jo har render change hote hain, top-level components, trivial computations (a+b). <b>Rule</b>: Measure first! React DevTools Profiler se slow components identify karo, phir memoize karo.' },
+        ]
+      },
+
+      {
+        id: 'error_boundary', grp: 'react', sec: 'React Core', color: '#f87171', icon: '🛡️',
+        label: 'Error Boundaries',
+        tag: 'React Core', tagColor: 'rgba(248,113,113,.2)', tagText: '#f87171',
+        tagline: 'Component errors gracefully handle karo — puri app crash na ho',
+        what: `Error Boundaries = React class components jo child tree mein JS errors catch karte hain, log karte hain, aur fallback UI dikhate hain instead of crashing the app.`,
+        why: `Bina error boundary ke ek component crash → poori React app crash. Error boundary = safety net — ek section fail ho toh sirf wahi fail ho, baki app chalti rahe.`,
+        when: `Production apps mein hamesha. Route level pe, third-party components ke around, critical widgets ke around, user-generated content rendering mein.`,
+        where: `Page/route wrapper, widget boundaries, chart/map components, any component jo fail ho sakta hai.`,
+        how: `react-error-boundary library use karo (recommended). <code>&lt;ErrorBoundary FallbackComponent={Fallback}&gt;&lt;YourComponent /&gt;&lt;/ErrorBoundary&gt;</code>.`,
+        warn: `Error Boundaries sirf render/lifecycle errors catch karte hain. Event handlers aur async code manually try/catch mein wrap karo. Functional components error boundary nahi ban sakti — class component zaroori hai (ya library use karo).`,
+        tip: `Granular boundaries better UX dete hain — ek bada boundary = puri page fail. Multiple small boundaries = sirf affected section fail hota hai.`,
+        code: `// Install: npm install react-error-boundary
+
+import { ErrorBoundary, useErrorBoundary } from 'react-error-boundary';
+
+// Fallback Component
+function ErrorFallback({ error, resetErrorBoundary }) {
+  return (
+    <div role="alert" style={{
+      padding: '20px', border: '1px solid #ef4444',
+      borderRadius: '8px', background: '#fef2f2'
+    }}>
+      <h3>⚠️ Kuch problem ho gayi!</h3>
+      <p style={{ color: '#666' }}>{error.message}</p>
+      <button onClick={resetErrorBoundary}
+        style={{ padding: '8px 16px', background: '#ef4444', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+        Dobara try karo
+      </button>
+    </div>
+  );
+}
+
+// Route level — page crash se bachao
+function App() {
+  return (
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onError={(error, errorInfo) => {
+        // Sentry/Datadog mein log karo!
+        logError(error, errorInfo);
+      }}
+    >
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </ErrorBoundary>
+  );
+}
+
+// Granular — better UX
+function Dashboard() {
+  return (
+    <div>
+      <ErrorBoundary FallbackComponent={ChartError}>
+        <SalesChart />   {/* Chart fail → sirf chart broken */}
+      </ErrorBoundary>
+
+      <ErrorBoundary FallbackComponent={TableError}>
+        <DataTable />    {/* Table independent */}
+      </ErrorBoundary>
+    </div>
+  );
+}
+
+// Event handler errors — manually trigger
+function BuggyButton() {
+  const { showBoundary } = useErrorBoundary();
+
+  return (
+    <button onClick={async () => {
+      try { await riskyAPI(); }
+      catch (e) { showBoundary(e); } // Error boundary ko notify
+    }}>
+      Risky Action
+    </button>
+  );
+}`,
+        qa: [
+          { q: 'Error Boundary kya-kya pakad ta hai aur kya nahi?', a: '<b>Pakad ta hai</b>: render mein errors, lifecycle methods, constructor. <b>NAHI pakad ta</b>: Event handlers (try/catch manually), async code (setTimeout, Promises), SSR errors, boundary khud ke errors. Fix: Event handlers = try/catch. Async = useErrorBoundary hook (react-error-boundary). Always granular boundaries use karo.' },
+          { q: 'Production mein error boundary kaise setup karein?', a: '1) react-error-boundary install karo. 2) Route level pe wrap karo. 3) onError mein Sentry/Datadog log karo. 4) Meaningful fallback UI — retry button. 5) resetKeys prop use karo — route change pe auto-reset. 6) Test karo: throw new Error() component mein likhke. Never catch-and-ignore — hamesha log karo.' },
+        ]
+      },
+
+      {
+        id: 'react_router', grp: 'react', sec: 'React Ecosystem', color: '#fb7185', icon: '🗺️',
+        label: 'React Router v6',
+        tag: 'React Ecosystem', tagColor: 'rgba(251,113,133,.2)', tagText: '#fb7185',
+        tagline: 'Client-side routing — navigation, nested routes, params, protected routes',
+        what: `React Router v6 = client-side routing library. URL change hoti hai without page reload. Key concepts: Routes, nested routes, URL params, search params, programmatic navigation, route protection.`,
+        why: `SPA (Single Page Application) mein multiple "pages" chahiye bina actual page reload ke. React Router ye enable karta hai — fast navigation, browser history support, deep linking.`,
+        when: `Koi bhi multi-page React application. Login pages, dashboard, product detail pages, admin panels.`,
+        where: `App.jsx mein routing setup, auth guards, dynamic parameter pages (/products/:id), nested layouts.`,
+        how: `<code>&lt;BrowserRouter&gt;&lt;Routes&gt;&lt;Route path="/" element={&lt;Home /&gt;} /&gt;&lt;/Routes&gt;&lt;/BrowserRouter&gt;</code>. Nested: Outlet component use karo.`,
+        warn: `v5 → v6 breaking changes: Switch → Routes, exact removed, useHistory → useNavigate, Redirect → Navigate component. v6 match kaafi alag hai.`,
+        tip: `Lazy loading routes = code splitting free mein! <code>const Home = lazy(() => import('./Home'))</code>. Suspense ke saath use karo.`,
+        code: `import { BrowserRouter, Routes, Route, Link, NavLink,
+  useParams, useNavigate, useSearchParams, Outlet, Navigate } from 'react-router-dom';
+
+// App routing setup
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="products" element={<Products />} />
+          <Route path="products/:id" element={<ProductDetail />} />
+          <Route path="admin" element={
+            <ProtectedRoute role="admin"><Admin /></ProtectedRoute>
+          } />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+// Nested layout — Outlet magic!
+function Layout() {
+  return (
+    <div>
+      <nav>
+        <NavLink to="/" className={({isActive}) => isActive ? 'active' : ''}>Home</NavLink>
+        <NavLink to="/products">Products</NavLink>
+      </nav>
+      <main>
+        <Outlet />  {/* Child routes yahan render hote hain */}
+      </main>
+    </div>
+  );
+}
+
+// URL Params
+function ProductDetail() {
+  const { id } = useParams(); // /products/123 → id = '123'
+  const { data } = useFetch(\`/api/products/\${id}\`);
+  return <div>{data?.name}</div>;
+}
+
+// Search Params (?category=tech)
+function Products() {
+  const [params, setParams] = useSearchParams();
+  const category = params.get('category') || 'all';
+  return <button onClick={() => setParams({ category: 'tech' })}>Filter</button>;
+}
+
+// Programmatic Navigation
+function LoginForm() {
+  const navigate = useNavigate();
+  const handleLogin = async () => {
+    await login();
+    navigate('/dashboard', { replace: true }); // History replace
+  };
+  return <button onClick={handleLogin}>Login</button>;
+}
+
+// Protected Route
+function ProtectedRoute({ children, role }) {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" replace />;
+  if (role && user.role !== role) return <Navigate to="/unauthorized" replace />;
+  return children;
+}`,
+        qa: [
+          { q: 'React Router v6 mein v5 se kya changes hain?', a: '1) Switch → Routes. 2) exact prop removed (v6 exact by default). 3) useHistory → useNavigate. 4) Redirect → Navigate. 5) element prop (not component). 6) Nested routes with Outlet. 7) Relative links. 8) No component prop — hamesha element={&lt;Comp /&gt;}. 9) useRouteMatch → useMatch. v6 cleaner hai but migration careful se karo.' },
+          { q: 'Protected routes implement kaise karein?', a: 'Wrapper component jo auth check kare: agar user nahi → Navigate to /login (replace: true — history mein login na rahe). agar user → children render. Role-based: user.role check karo → unauthorized page pe redirect. Advanced: React Router 6.4+ mein loader functions se bhi auth check kar sakte ho route definition mein. Centralized auth hook use karo — DRY principle.' },
+        ]
+      },
+
+      {
+        id: 'state_management', grp: 'react', sec: 'React State', color: '#c084fc', icon: '🗃️',
+        label: 'State Management — Zustand & Redux',
+        tag: 'React State', tagColor: 'rgba(192,132,252,.2)', tagText: '#c084fc',
+        tagline: 'Global state management — sahi tool chunna performance aur DX ke liye critical',
+        what: `useState = local. useReducer = complex local. Context = shared low-frequency. <b>Zustand</b> = global simple state. <b>Redux Toolkit</b> = complex large-scale. <b>TanStack Query</b> = server state.`,
+        why: `Deeply nested state sharing, complex state transitions, cross-component communication — local state inadequate hai. Global state management ise solve karta hai.`,
+        when: `Zustand: shopping cart, user preferences, UI state. Redux Toolkit: large teams, complex business logic, strong devtools. TanStack Query: any server/async data.`,
+        where: `E-commerce cart (Zustand), authentication (Zustand/Redux), API cache (TanStack Query), form state (local useState/RHF).`,
+        how: `Zustand: <code>create((set) => ({ state, action: () => set({...}) }))</code>. Redux Toolkit: createSlice, configureStore, useSelector, useDispatch.`,
+        warn: `Over-engineering karo mat! Choti app mein Redux unnecessarily complex hai. useState se start karo, zarurat pe scale karo. Server state ke liye Redux use mat karo — TanStack Query better hai.`,
+        tip: `2024 recommendation: <b>Zustand + TanStack Query</b> = most projects ke liye best combo. Simple, performant, minimal boilerplate.`,
+        code: `// ZUSTAND — Simple Global State (2024 Recommended!)
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+
+const useCartStore = create(
+  persist(  // localStorage mein persist!
+    (set, get) => ({
+      items: [],
+      total: 0,
+
+      addItem: (item) => set(state => ({
+        items: [...state.items, item],
+        total: state.total + item.price,
+      })),
+
+      removeItem: (id) => set(state => {
+        const newItems = state.items.filter(i => i.id !== id);
+        return { items: newItems, total: newItems.reduce((s, i) => s + i.price, 0) };
+      }),
+
+      clearCart: () => set({ items: [], total: 0 }),
+      getItemCount: () => get().items.length,
+    }),
+    { name: 'cart-storage' }
+  )
+);
+
+// Selective subscription — only re-renders when items.length changes!
+function CartBadge() {
+  const count = useCartStore(state => state.items.length);
+  return <span className="badge">{count}</span>;
+}
+
+// REDUX TOOLKIT — Large Scale
+import { createSlice, configureStore } from '@reduxjs/toolkit';
+import { useSelector, useDispatch } from 'react-redux';
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { value: 0, step: 1 },
+  reducers: {
+    increment: (state) => { state.value += state.step; }, // Immer!
+    decrement: (state) => { state.value -= state.step; },
+    setStep: (state, action) => { state.step = action.payload; },
+  },
+});
+
+export const { increment, decrement, setStep } = counterSlice.actions;
+
+const store = configureStore({
+  reducer: { counter: counterSlice.reducer }
+});
+
+function Counter() {
+  const { value, step } = useSelector(state => state.counter);
+  const dispatch = useDispatch();
+  return (
+    <div>
+      <p>{value}</p>
+      <button onClick={() => dispatch(increment())}>+{step}</button>
+    </div>
+  );
+}`,
+        qa: [
+          { q: 'Zustand vs Redux — kab kya choose karein?', a: '<b>Zustand</b>: minimal boilerplate, auto selective subscriptions, outside React bhi usable, small bundle. Most projects ke liye perfect. <b>Redux Toolkit</b>: large teams, strict patterns needed, time travel debugging, existing Redux codebase. <b>Rule</b>: new project = Zustand. Large enterprise = Redux. Never use Redux for server state — TanStack Query use karo.' },
+          { q: 'useReducer kab use karein?', a: 'Multiple related state values jo saath change hote hain. Complex state transitions. Next state previous pe depend kare. State update logic bahut hai. Redux-like patterns local component mein. <b>Rule</b>: agar 3+ related state variables aur complex logic → useReducer. useState tab tak jab simple kaam kare.' },
+        ]
+      },
+
+      {
+        id: 'performance_react', grp: 'react', sec: 'Performance', color: '#2dd4bf', icon: '🚀',
+        label: 'React Performance Optimization',
+        tag: 'Performance', tagColor: 'rgba(45,212,191,.2)', tagText: '#2dd4bf',
+        tagline: 'Code splitting, lazy loading, virtualization — React app fast banao',
+        what: `React performance optimization = bundle size reduce, render time kam, DOM updates minimize. Key: Code splitting (React.lazy), Virtualization (TanStack Virtual), Profiling (React DevTools).`,
+        why: `Slow apps = poor user experience + bad Core Web Vitals + lower Google ranking. Performance directly affects user retention aur SEO.`,
+        when: `Before production deployment. When users report slowness. When Lighthouse score poor ho. When INP > 200ms, LCP > 2.5s.`,
+        where: `Large lists, heavy routes, image-heavy pages, complex dashboards, any perceived slowness.`,
+        how: `1) Measure (Profiler, web-vitals). 2) Identify bottleneck. 3) Apply fix (memo, lazy, virtual). 4) Measure again. Never optimize blindly.`,
+        warn: `Premature optimization = wasted time. Profile first, optimize what matters. Dev mode 2-3x slower than production — always profile production build.`,
+        tip: `<b>Core Web Vitals targets</b>: LCP < 2.5s, INP < 200ms, CLS < 0.1. <code>useTransition</code> (React 18) = non-urgent updates defer karo — UI responsive rehta hai.`,
+        code: `// 1. Code Splitting — React.lazy
+import { lazy, Suspense } from 'react';
+
+const Dashboard = lazy(() => import('./Dashboard')); // Alag chunk!
+const AdminPanel = lazy(() => import('./Admin'));
+
+function App() {
+  return (
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin" element={<AdminPanel />} />
+      </Routes>
+    </Suspense>
+  );
+}
+
+// 2. Virtualization — 10,000 items efficiently
+import { useVirtualizer } from '@tanstack/react-virtual';
+
+function BigList({ items }) {
+  const parentRef = useRef(null);
+  const virtualizer = useVirtualizer({
+    count: items.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 60,   // Row height
+    overscan: 5,              // Extra items outside viewport
+  });
+
+  return (
+    <div ref={parentRef} style={{ height: '500px', overflow: 'auto' }}>
+      <div style={{ height: virtualizer.getTotalSize() }}>
+        {virtualizer.getVirtualItems().map(vItem => (
+          <div key={vItem.key}
+            style={{ position: 'absolute', top: 0, width: '100%',
+              transform: \`translateY(\${vItem.start}px)\`, height: vItem.size }}>
+            {items[vItem.index].name}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// 3. React 18 — useTransition
+import { useTransition, startTransition } from 'react';
+
+function SearchPage() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+  const [isPending, startTransition] = useTransition();
+
+  const handleChange = (e) => {
+    setQuery(e.target.value); // Urgent: input updates immediately
+
+    startTransition(() => {
+      // Non-urgent: can be interrupted if user types again!
+      setResults(heavyFilter(allItems, e.target.value));
+    });
+  };
+
+  return (
+    <>
+      <input value={query} onChange={handleChange} />
+      {isPending ? <Spinner /> : <Results items={results} />}
+    </>
+  );
+}
+
+// 4. Measure — web-vitals
+import { onLCP, onINP, onCLS } from 'web-vitals';
+onLCP(({ value, rating }) => console.log('LCP:', value, rating));
+onINP(({ value, rating }) => console.log('INP:', value, rating));`,
+        qa: [
+          { q: 'React app slow hai — debugging kahan se shuru karein?', a: '1) <b>Measure</b>: web-vitals se real user metrics, Lighthouse run karo. 2) <b>Network</b>: API calls fast? Bundle size? 3) <b>React Profiler</b>: slow components? Unnecessary re-renders? 4) <b>JavaScript</b>: Long Tasks? Heavy computation main thread pe? 5) <b>DOM</b>: bahut DOM nodes? Virtualize karo. 6) <b>Images</b>: lazy loaded? WebP? Dimensions specified? Systematic: Measure → Identify → Fix → Measure again.' },
+          { q: 'Core Web Vitals kya hain aur React mein kaise improve karein?', a: '<b>LCP</b> (Largest Contentful Paint < 2.5s): hero image preload karo, code split karo, fast server. <b>INP</b> (Interaction to Next Paint < 200ms): useTransition, web workers, debounce, virtualize lists. <b>CLS</b> (Cumulative Layout Shift < 0.1): images pe width/height specify karo, fonts preload karo, reserved space. Install: <code>npm install web-vitals</code> aur production mein track karo.' },
+        ]
+      },
+
+      {
+        id: 'typescript_react', grp: 'react', sec: 'React Ecosystem', color: '#60a5fa', icon: '📘',
+        label: 'TypeScript with React',
+        tag: 'React Ecosystem', tagColor: 'rgba(96,165,250,.2)', tagText: '#60a5fa',
+        tagline: 'Type safety — bugs production se pehle pakdo, better DX, scalable code',
+        what: `TypeScript = JavaScript + static types. React mein: props type karo, state, hooks, events, refs, context — compile time pe errors milte hain, runtime pe nahi.`,
+        why: `Large codebases mein bina types ke: wrong prop types, undefined errors, refactoring breaking things silently. TypeScript: autocomplete, refactoring safe, documentation as code, team collaboration better.`,
+        when: `Hamesha! New projects mein TypeScript default honi chahiye. JS project mein gradually migrate karo — .js → .ts/.tsx.`,
+        where: `Props interfaces, API response types, Redux/Zustand state types, hook return types, event handler types.`,
+        how: `<code>interface Props { name: string; age?: number; }</code>. Generics: <code>function useFetch&lt;T&gt;(url: string): T | null</code>. Utility types: Partial, Required, Pick, Omit, Record.`,
+        warn: `<code>any</code> type TypeScript ka fayda khatam karta hai! <code>unknown</code> use karo jab type pata nahi. <code>as</code> (type assertion) bhi cautiously use karo. Strict mode enable karo tsconfig mein.`,
+        tip: `Utility types bahut helpful hain: <code>Partial&lt;User&gt;</code> = sab optional. <code>Pick&lt;User, 'name'|'email'&gt;</code> = sirf ye. <code>Omit&lt;User, 'password'&gt;</code> = ye chhod ke. <code>Record&lt;string, number&gt;</code> = object type.`,
+        code: `// Props Typing
+interface ButtonProps {
+  label: string;
+  onClick: () => void;
+  variant?: 'primary' | 'secondary' | 'danger';  // Union type
+  disabled?: boolean;
+  children?: React.ReactNode;
+  className?: string;
+}
+
+const Button: React.FC<ButtonProps> = ({
+  label, onClick, variant = 'primary', disabled = false
+}) => <button onClick={onClick} disabled={disabled}>{label}</button>;
+
+// useState typing
+const [user, setUser] = useState<User | null>(null);
+const [count, setCount] = useState<number>(0);
+const [items, setItems] = useState<Product[]>([]);
+
+// Interface definitions
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: 'admin' | 'user' | 'guest';
+  address?: {
+    city: string;
+    country: string;
+  };
+}
+
+// Generic Custom Hook
+function useFetch<T>(url: string): {
+  data: T | null;
+  loading: boolean;
+  error: string | null;
+} {
+  const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch(url)
+      .then(r => r.json() as Promise<T>)
+      .then(d => { setData(d); setLoading(false); })
+      .catch(e => { setError(e.message); setLoading(false); });
+  }, [url]);
+
+  return { data, loading, error };
+}
+
+// Fully typed usage!
+const { data } = useFetch<User[]>('/api/users');
+// data = User[] | null — TypeScript knows!
+
+// Event Handlers
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => { e.preventDefault(); };
+const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {};
+
+// useRef typing
+const inputRef = useRef<HTMLInputElement>(null);
+inputRef.current?.focus(); // Optional chaining for null
+
+// Utility types
+type PartialUser = Partial<User>;          // All optional
+type UserBasic = Pick<User, 'id' | 'name'>; // Only these
+type UserPublic = Omit<User, 'role'>;      // Except these
+type UserMap = Record<string, User>;       // Dict type`,
+        qa: [
+          { q: 'TypeScript mein interface aur type mein kya fark hai?', a: '<b>Interface</b>: objects describe karta hai, extendable (extends), declaration merging (same name twice = merge), class pe implement. <b>Type</b>: kuch bhi (union, intersection, primitives, tuples), ek baar define. Kab kya: Objects/Props = interface. Union/complex types = type. Convention: React props ke liye interface prefer karo. Dono zyada tar interchangeable hain.' },
+          { q: 'Generics kab use karein React mein?', a: 'Jab same pattern different types ke saath repeat ho. Examples: useFetch&lt;T&gt; — koi bhi type ka data. List&lt;T&gt; component — koi bhi type ke items. API wrapper. Generic = reusable + type safe. any se better: type safety maintain hoti hai. Rule: agar "kisi bhi type ke saath kaam karna ho" — generic use karo.' },
+        ]
+      },
+
+      {
+        id: 'testing', grp: 'react', sec: 'React Ecosystem', color: '#86efac', icon: '🧪',
+        label: 'Testing React',
+        tag: 'React Ecosystem', tagColor: 'rgba(134,239,172,.2)', tagText: '#86efac',
+        tagline: 'Unit, integration, E2E — React Testing Library se user jaise test karo',
+        what: `Testing pyramid: Unit (fast, isolated) → Integration (components + mocks) → E2E (real browser). React Testing Library (RTL) = behavior test karo, implementation nahi.`,
+        why: `Tests = confident refactoring, bug prevention, documentation as code, faster debugging. RTL philosophy: "Test the way users use your app."`,
+        when: `Hamesha! Critical paths zaroor test karo — login, checkout, core features. TDD (write tests first) ya test-after dono valid.`,
+        where: `Components with logic, custom hooks, utility functions, API integration, forms, critical user flows.`,
+        how: `<code>render(&lt;Component /&gt;)</code> → <code>screen.getByRole/Text/Label</code> → <code>userEvent.click/type</code> → <code>expect(...).toBeInTheDocument()</code>.`,
+        warn: `Implementation details test mat karo (state values, CSS classes, component names). Behavior test karo. Jo implementation pe depend karte hain — refactoring pe break hote hain.`,
+        tip: `Query priority: <code>getByRole</code> > <code>getByLabelText</code> > <code>getByText</code> > <code>getByTestId</code>. Role-based queries accessible code likhne pe force karte hain.`,
+        code: `// Setup: npm i -D @testing-library/react @testing-library/user-event vitest
+
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
+
+// 1. Basic Component Test
+import Button from './Button';
+
+test('Button click karne pe onClick call hota hai', async () => {
+  const handleClick = vi.fn();
+  render(<Button onClick={handleClick}>Submit</Button>);
+
+  const btn = screen.getByRole('button', { name: /submit/i });
+  await userEvent.click(btn);
+
+  expect(handleClick).toHaveBeenCalledTimes(1);
+  expect(btn).toBeEnabled();
+});
+
+// 2. Form Validation Test
+import LoginForm from './LoginForm';
+
+test('Invalid email pe error message dikhta hai', async () => {
+  render(<LoginForm />);
+
+  await userEvent.type(screen.getByLabelText(/email/i), 'notanemail');
+  await userEvent.click(screen.getByRole('button', { name: /login/i }));
+
+  expect(screen.getByText(/valid email likhein/i)).toBeInTheDocument();
+  expect(screen.queryByText(/success/i)).not.toBeInTheDocument();
+});
+
+// 3. Async Test — API mock
+import { fetchUser } from './api';
+vi.mock('./api', () => ({ fetchUser: vi.fn() }));
+
+test('User data load hone ke baad display hota hai', async () => {
+  fetchUser.mockResolvedValue({ name: 'Rahul Singh', age: 25 });
+
+  render(<UserProfile userId={1} />);
+
+  // Loading state check
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
+
+  // Data loaded
+  await waitFor(() => {
+    expect(screen.getByText('Rahul Singh')).toBeInTheDocument();
+  });
+  expect(fetchUser).toHaveBeenCalledWith(1);
+});
+
+// 4. Custom Hook Test
+import { renderHook, act } from '@testing-library/react';
+import { useCounter } from './useCounter';
+
+test('useCounter increment/decrement kaam karta hai', () => {
+  const { result } = renderHook(() => useCounter(10));
+
+  expect(result.current.count).toBe(10);
+
+  act(() => { result.current.increment(); });
+  expect(result.current.count).toBe(11);
+
+  act(() => { result.current.decrement(); });
+  expect(result.current.count).toBe(10);
+});
+
+// 5. Mock timer test
+test('Debounce kaam karta hai', async () => {
+  vi.useFakeTimers();
+  const onSearch = vi.fn();
+  render(<SearchInput onSearch={onSearch} />);
+
+  await userEvent.type(screen.getByRole('textbox'), 'react');
+  expect(onSearch).not.toHaveBeenCalled(); // Debounced
+
+  vi.advanceTimersByTime(300);
+  expect(onSearch).toHaveBeenCalledWith('react');
+  vi.useRealTimers();
+});`,
+        qa: [
+          { q: 'RTL ka philosophy kya hai? Enzyme se kaise alag hai?', a: 'RTL: "Test behavior, not implementation." Users ki tarah test karo — click, type, check visible text. Internal state mat check karo. Enzyme: component internals test karta tha (state, methods, instance). RTL DOM test karta hai. RTL benefits: refactor freely (tests nahi tootenge), accessibility improve hoti hai (role-based queries aria-labels require karte hain), better test quality.' },
+          { q: 'Unit vs Integration vs E2E — testing strategy kya ho?', a: '<b>Unit</b> (70%): ek function/hook isolated. Fast (ms). Mock everything. Vitest/Jest. <b>Integration</b> (20%): multiple components + API mocks. Realistic but controlled. RTL. <b>E2E</b> (10%): real browser, full journey. Slow. Playwright/Cypress. Most value: integration tests — real behavior bina full browser overhead. Critical paths E2E se cover karo.' },
+        ]
+      },
+
+      ,
+
+      {
+        id: 'deep_shallow', grp: 'js', sec: 'JS Core', color: '#f97316', icon: '📑',
+        label: 'Deep vs Shallow Copy',
+        tag: 'JS Core', tagColor: 'rgba(249,115,22,.2)', tagText: '#f97316',
+        tagline: 'Object copy karte waqt reference vs value — React state mein critical concept',
+        what: `Primitive values (number, string, boolean) copy by VALUE hote hain. Objects/Arrays copy by REFERENCE — dono variables ek hi memory point karte hain. <b>Shallow copy</b>: top-level copy, nested same reference. <b>Deep copy</b>: sab levels par new copies.`,
+        why: `React state immutably update karna padta hai — same reference mutate karo toh React detect nahi karta, re-render nahi hoti. Deep vs shallow ka concept harr state update mein kaam aata hai.`,
+        when: `React state update mein, Redux reducers mein, object clone karte waqt, API response transform karte waqt.`,
+        where: `useState update, Redux reducers, API response processing, configuration objects clone karna.`,
+        how: `Shallow: spread (<code>{...obj}</code>), Object.assign(). Deep: <code>structuredClone(obj)</code> (modern best), JSON.parse/stringify (no functions), lodash cloneDeep.`,
+        warn: `<code>JSON.parse(JSON.stringify())</code> — functions, undefined, Date, RegExp, circular references handle nahi karta. Modern code mein <code>structuredClone()</code> use karo.`,
+        tip: `React mein nested state update: spread nested level bhi karo: <code>setUser(prev => ({...prev, address: {...prev.address, city: 'Delhi'}}))</code>`,
+        code: `// Primitive — copy by VALUE
+let a = 5;
+let b = a;
+b = 10;
+console.log(a); // 5 — unchanged!
+
+// Object — copy by REFERENCE ⚠️
+const obj1 = { name: 'Rahul', age: 25 };
+const obj2 = obj1;          // Same reference!
+obj2.name = 'Priya';
+console.log(obj1.name);     // 'Priya' — obj1 bhi change!
+
+// Shallow Copy — top level copy, nested shared
+const shallow = { ...obj1 };           // Spread
+const shallow2 = Object.assign({}, obj1);
+
+const nested = { user: { name: 'Rahul' }, count: 1 };
+const shallowCopy = { ...nested };
+shallowCopy.user.name = 'Priya';       // nested.user.name bhi change! ⚠️
+shallowCopy.count = 99;                 // nested.count nahi change ✅
+
+// Deep Copy methods
+// 1. structuredClone — Modern, BEST ✅
+const deepCopy = structuredClone(nested);
+deepCopy.user.name = 'Priya';
+console.log(nested.user.name);          // 'Rahul' — safe!
+
+// 2. JSON hack — simple but limited
+const deepCopy2 = JSON.parse(JSON.stringify(nested));
+// ❌ Loses: functions, undefined, Date, RegExp, Map, Set
+
+// 3. Lodash cloneDeep
+import { cloneDeep } from 'lodash-es';
+const deepCopy3 = cloneDeep(nested);
+
+// React State — Immutable Update ✅
+const [user, setUser] = useState({
+  name: 'Rahul',
+  address: { city: 'Mumbai', pin: '400001' }
+});
+
+// ❌ Direct mutation — React nahi dekh payega!
+user.address.city = 'Delhi';
+setUser(user);  // Same reference — no re-render!
+
+// ✅ Immutable update — new reference banao
+setUser(prev => ({
+  ...prev,
+  address: {
+    ...prev.address,   // Nested bhi spread karo!
+    city: 'Delhi',
+  }
+}));`,
+        qa: [
+          { q: 'Shallow copy aur deep copy mein kya fark hai? React context mein explain karo.', a: '<b>Shallow copy</b>: spread/Object.assign — top-level copy, nested objects same reference share karte hain. <b>Deep copy</b>: structuredClone() — sab levels par new copies. React mein: state update ke liye hamesha new reference chahiye. Shallow copy tab kafi hai jab nested objects change nahi hote. Nested change ke liye: ya spread chain karo ya structuredClone. Best modern: <code>structuredClone()</code> — native, handles Date/Map/Set.' },
+          { q: 'React mein immutability kyun zaroori hai?', a: 'React state comparison <code>===</code> (reference equality) se karta hai. Same reference mutate karo → React ko pata nahi chalega → no re-render. New reference banao → React detects change → re-render. Benefits: predictable state, React.memo properly kaam karta hai, time travel debugging (Redux DevTools), pure component optimizations possible.' },
+        ]
+      },
+
+      {
+        id: 'currying', grp: 'js', sec: 'Functional JS', color: '#c084fc', icon: '🔧',
+        label: 'Currying & Function Composition',
+        tag: 'Functional JS', tagColor: 'rgba(192,132,252,.2)', tagText: '#c084fc',
+        tagline: 'Multi-arg functions ko chain karo — reusable aur composable code banao',
+        what: `<b>Currying</b>: multi-argument function ko single-argument functions ki chain mein convert karna. <b>Composition</b>: functions ko pipeline mein jodhna — ek ka output doosre ka input. Functional programming ka core.`,
+        why: `Currying partial application enable karta hai — pre-configured functions banao. Composition code ko readable pipeline mein likhne deta hai. Modular, testable, reusable functions.`,
+        when: `Event handler factories, API call builders, validation pipelines, data transformation chains, middleware patterns.`,
+        where: `Utility libraries, Redux middleware, React HOCs internally, API wrappers, form validators.`,
+        how: `Arrow function nesting: <code>const add = a => b => a + b</code>. Pipe/Compose: <code>const pipe = (...fns) => x => fns.reduce((v,f) => f(v), x)</code>.`,
+        warn: `Currying debugging mushkil bana sakta hai — call stack deep ho jaata hai. Simple cases mein regular functions prefer karo. Readability pehle.`,
+        tip: `<b>pipe</b> = left to right (readable). <b>compose</b> = right to left (mathematical). Most devs pipe prefer karte hain kyunki data flow left-to-right readable lagta hai.`,
+        code: `// Basic Currying
+function multiply(a, b) { return a * b; }
+
+// Curried version
+const curriedMultiply = a => b => a * b;
+
+const double = curriedMultiply(2);   // Partial application!
+const triple = curriedMultiply(3);
+
+console.log(double(5));   // 10
+console.log(triple(5));   // 15
+
+// Generic curry utility
+function curry(fn) {
+  return function curried(...args) {
+    if (args.length >= fn.length) return fn(...args);
+    return (...more) => curried(...args, ...more);
+  };
+}
+
+const add = curry((a, b, c) => a + b + c);
+add(1)(2)(3);    // 6
+add(1, 2)(3);    // 6
+add(1)(2, 3);    // 6
+
+// Function Composition
+// pipe — left to right ✅ (more readable)
+const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x);
+// compose — right to left
+const compose = (...fns) => x => fns.reduceRight((v, f) => f(v), x);
+
+// Real example — URL slug banao
+const trim = s => s.trim();
+const toLowerCase = s => s.toLowerCase();
+const replaceSpaces = s => s.replace(/\s+/g, '-');
+const removeSpecial = s => s.replace(/[^a-z0-9-]/g, '');
+
+const slugify = pipe(trim, toLowerCase, replaceSpaces, removeSpecial);
+
+console.log(slugify('  Hello World! React JS  '));
+// 'hello-world-react-js'
+
+// Practical: Configurable event handler
+const withLogging = fn => (...args) => {
+  console.log('Calling with:', args);
+  const result = fn(...args);
+  console.log('Result:', result);
+  return result;
+};
+
+const withErrorHandling = fn => (...args) => {
+  try { return fn(...args); }
+  catch (e) { console.error(e); return null; }
+};
+
+const safeLoggedFetch = pipe(withLogging, withErrorHandling)(fetch);`,
+        qa: [
+          { q: 'Currying kya hai? Real-world use case do.', a: 'Currying = multi-arg function ko single-arg functions chain mein convert karna. Benefit: partial application — pre-configure karo. Real uses: 1) API headers: <code>const authFetch = (token) => (url) => fetch(url, {headers:{Authorization:token}})</code>. 2) Validators: <code>const minLength = (min) => (val) => val.length >= min</code>. 3) Redux action creators. 4) Event handlers with config.' },
+          { q: 'pipe aur compose mein kya fark hai?', a: '<b>compose</b>: right to left — f(g(h(x))). Mathematical tradition. <b>pipe</b>: left to right — h(x) → g → f. More readable for most developers (data flows as you read). Both same result different order. <code>compose(f, g, h)(x) === pipe(h, g, f)(x)</code>. Recommendation: pipe use karo — code reads like data flow.' },
+        ]
+      },
+
+      {
+        id: 'generators', grp: 'js', sec: 'ES6+', color: '#34d399', icon: '⚙️',
+        label: 'Generators & Iterators',
+        tag: 'ES6+', tagColor: 'rgba(52,211,153,.2)', tagText: '#34d399',
+        tagline: 'Pause aur resume hone wale functions — lazy sequences aur async flow',
+        what: `<b>Generator function</b> (<code>function*</code>) execution ko pause (<code>yield</code>) aur resume kar sakti hai. Ek iterator return karti hai. <b>Iterator protocol</b>: <code>[Symbol.iterator]</code> method wala koi bhi object iterable hai.`,
+        why: `Lazy evaluation — infinite sequences memory-efficiently generate karo. Redux Saga generators se async flow control karta hai. Custom iterables banao (for...of loop ke liye).`,
+        when: `Infinite sequences, lazy data loading, custom iterables, Redux Saga, pagination, data streaming.`,
+        where: `Redux Saga (async flows), range utilities, infinite scroll data generation, custom for...of loops.`,
+        how: `<code>function* gen() { yield 1; yield 2; }</code>. <code>gen.next()</code> se ek-ek step chalao. <code>yield</code> pe pause, <code>done: true</code> pe khatam.`,
+        warn: `Generators complex code bana sakte hain. Interview mein concept + basic example kafi hai. Over-use se avoid karo — async/await zyada readable hai zyada tar cases mein.`,
+        tip: `For...of loop, spread operator, destructuring — sab generators ke saath kaam karte hain: <code>[...gen()]</code>, <code>for (const v of gen()) {}</code>.`,
+        code: `// Basic Generator
+function* simpleGen() {
+  console.log('Step 1 start');
+  yield 1;             // Pause, value 1 bahar
+  console.log('Step 2 start');
+  yield 2;             // Pause, value 2 bahar
+  return 'done';       // Generator khatam
+}
+
+const gen = simpleGen();
+console.log(gen.next()); // Step 1 start, {value:1, done:false}
+console.log(gen.next()); // Step 2 start, {value:2, done:false}
+console.log(gen.next()); //               {value:'done', done:true}
+
+// Infinite Counter — lazy, memory efficient!
+function* infiniteCounter(start = 1) {
+  while (true) yield start++;
+}
+
+const counter = infiniteCounter();
+console.log(counter.next().value); // 1
+console.log(counter.next().value); // 2
+// Jab chahiye tab lo — memory waste nahi!
+
+// Range generator
+function* range(start, end, step = 1) {
+  for (let i = start; i < end; i += step) yield i;
+}
+
+console.log([...range(0, 10, 2)]); // [0,2,4,6,8]
+
+for (const n of range(1, 6)) {
+  console.log(n); // 1,2,3,4,5
+}
+
+// Custom Iterator
+class NumberRange {
+  constructor(start, end) {
+    this.start = start; this.end = end;
+  }
+  [Symbol.iterator]() {
+    let current = this.start;
+    const end = this.end;
+    return {
+      next() {
+        return current <= end
+          ? { value: current++, done: false }
+          : { value: undefined, done: true };
+      }
+    };
+  }
+}
+
+const nums = new NumberRange(1, 5);
+console.log([...nums]); // [1,2,3,4,5]
+for (const n of nums) console.log(n);
+
+// Generator with input (yield as expression)
+function* calculator() {
+  let result = 0;
+  while (true) {
+    const input = yield result;
+    result += input;
+  }
+}
+const calc = calculator();
+calc.next();      // Start
+calc.next(10);    // result = 10
+calc.next(20);    // result = 30`,
+        qa: [
+          { q: 'Generator function kya hai? Normal function se kaise alag?', a: 'Normal function: ek baar run, ek value return, khatam. Generator (function*): multiple times pause/resume, yield se values emit, state preserve hoti hai. Return = iterator object. Analogy: normal = poori movie ek baar. Generator = Netflix — episode-by-episode, jab chahiye tab. Use cases: lazy sequences, Redux Saga, pagination.' },
+          { q: 'Symbol.iterator aur iterable protocol kya hai?', a: 'Iterable protocol: object jo <code>[Symbol.iterator]()</code> method define kare — wo iterable hai. Is method se ek iterator object milta hai jo <code>next()</code> method rakhta hai. Built-in iterables: Array, String, Map, Set, Generator. Iska fayda: for...of, spread [...], destructuring, Array.from() — sab kisi bhi iterable ke saath kaam karte hain.' },
+        ]
+      },
+
+      {
+        id: 'map_set', grp: 'js', sec: 'ES6+', color: '#fbbf24', icon: '🗂️',
+        label: 'Map, Set, WeakMap, WeakSet',
+        tag: 'ES6+', tagColor: 'rgba(251,191,36,.2)', tagText: '#fbbf24',
+        tagline: 'Better data structures — Object aur Array ki limitations se aage jao',
+        what: `<b>Map</b>: key-value pairs — any type as key (objects bhi!), insertion order maintained. <b>Set</b>: unique values collection. <b>WeakMap/WeakSet</b>: weak references — garbage collection allow karte hain.`,
+        why: `Object mein sirf string/symbol keys, size manually nikalna, order guaranteed nahi. Map in sab ko fix karta hai. Set uniqueness enforce karta hai. WeakMap/WeakSet memory leaks rokta hai.`,
+        when: `Map: frequency count, cache, object keys. Set: duplicates remove, membership check. WeakMap: private class data, DOM metadata. WeakSet: processed objects track.`,
+        where: `Algorithm problems (frequency count), deduplication, caching, private data storage, memoization caches.`,
+        how: `<code>new Map()</code>, <code>map.set(key, val)</code>, <code>map.get(key)</code>. <code>new Set([1,2,2,3])</code> → <code>{1,2,3}</code>. WeakMap/WeakSet same API, object keys only.`,
+        warn: `WeakMap/WeakSet iterable nahi hain — forEach ya size nahi milta. Sirf object keys WeakMap mein. Primitive values WeakSet mein nahi.`,
+        tip: `Array deduplication shortcut: <code>[...new Set(arr)]</code> — cleanest way! Interview mein ye commonly poochhte hain.`,
+        code: `// MAP — any key type!
+const map = new Map();
+const objKey = { id: 1 };
+
+map.set('string', 'value1');
+map.set(objKey, 'value2');    // Object as key! ✅
+map.set(42, 'value3');        // Number as key! ✅
+map.set(true, 'value4');      // Boolean as key! ✅
+
+console.log(map.get(objKey)); // 'value2'
+console.log(map.size);        // 4
+console.log(map.has('string')); // true
+map.delete('string');
+
+// Map iteration (insertion order!)
+for (const [key, value] of map) {
+  console.log(key, value);
+}
+console.log([...map.values()]); // all values
+console.log([...map.keys()]);   // all keys
+console.log([...map.entries()]); // [key,value] pairs
+
+// Object → Map
+const obj = { a: 1, b: 2 };
+const fromObj = new Map(Object.entries(obj));
+
+// SET — unique values
+const set = new Set([1, 2, 2, 3, 3, 4]);
+console.log([...set]); // [1,2,3,4] — duplicates removed!
+console.log(set.size); // 4
+set.add(5);
+set.has(3); // true
+set.delete(2);
+
+// Array deduplication — Classic!
+const arr = [1, 'a', 2, 'a', 1, 3];
+const unique = [...new Set(arr)]; // [1,'a',2,3]
+
+// Set operations
+const a = new Set([1, 2, 3, 4]);
+const b = new Set([3, 4, 5, 6]);
+const union = new Set([...a, ...b]);            // {1,2,3,4,5,6}
+const intersection = new Set([...a].filter(x => b.has(x))); // {3,4}
+const difference = new Set([...a].filter(x => !b.has(x)));  // {1,2}
+
+// WEAKMAP — private data, auto-GC
+const privateData = new WeakMap();
+
+class Person {
+  constructor(name, age) {
+    privateData.set(this, { name, age }); // Private!
+  }
+  getName() { return privateData.get(this).name; }
+  getAge() { return privateData.get(this).age; }
+}
+
+const p = new Person('Rahul', 25);
+console.log(p.getName()); // 'Rahul'
+// p = null → WeakMap entry automatically garbage collected!`,
+        qa: [
+          { q: 'Map vs Object — kab kya use karein?', a: '<b>Object</b>: simple string key-value, JSON needed, prototype methods. <b>Map</b>: non-string keys (object, number), size property, insertion order important, frequent add/delete operations. Performance: Map has/get/set faster for large collections. Interview classic: "Map is better dictionary than Object for most algorithmic use cases."' },
+          { q: 'Set ka best use case? Kaise array se alag hai?', a: '<b>Set</b>: unique values only, fast <code>.has()</code> O(1), no index access. <b>Array</b>: ordered, duplicates ok, index access, O(n) search. Best Set uses: 1) Deduplication: <code>[...new Set(arr)]</code>. 2) Membership check (faster than arr.includes). 3) Set math (union, intersection, difference). When to use Array: order/index matter, duplicates needed, array methods chahiye.' },
+        ]
+      },
+
+      {
+        id: 'regex', grp: 'js', sec: 'JS Core', color: '#e879f9', icon: '🔍',
+        label: 'Regular Expressions',
+        tag: 'JS Core', tagColor: 'rgba(232,121,249,.2)', tagText: '#e879f9',
+        tagline: 'Pattern matching — validation, search, replace ke liye powerful tool',
+        what: `Regular Expressions (RegEx) = string patterns. JS mein: <code>/pattern/flags</code> ya <code>new RegExp(pattern, flags)</code>. Flags: <code>g</code> (global), <code>i</code> (case insensitive), <code>m</code> (multiline).`,
+        why: `Form validation (email, phone, password), URL parsing, text search/replace, log parsing, data extraction — string methods se impossible tasks regex se easy ho jaate hain.`,
+        when: `Form validation, search functionality, data cleaning, URL parsing, text transformation, log analysis.`,
+        where: `Form validation hooks, API response parsing, search components, data transformation utilities.`,
+        how: `<code>/pattern/.test(string)</code> → true/false. <code>string.match(/pattern/g)</code> → array. <code>string.replace(/pattern/, 'new')</code>. <code>string.split(/pattern/)</code>.`,
+        warn: `Complex regex debugging mushkil hota hai. regex101.com pe test karo. Catastrophic backtracking possible hai — nested quantifiers avoid karo. Simple cases mein string methods prefer karo.`,
+        tip: `Named groups (ES2018): <code>/(?&lt;year&gt;\d{4})-(?&lt;month&gt;\d{2})/</code>. <code>match.groups.year</code> se access karo. Lookahead <code>(?=...)</code> — password validation ke liye must.`,
+        code: `// Basic Regex
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const phoneRegex = /^[6-9]\d{9}$/;             // Indian mobile
+const urlRegex = /^https?:\/\/(www\.)?[\w-]+\.[a-z]{2,}/i;
+const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,}$/;
+// (?=.*[A-Z]) = lookahead: at least one uppercase
+
+// Testing
+emailRegex.test('rahul@gmail.com'); // true
+emailRegex.test('invalid-email');   // false
+phoneRegex.test('9876543210');      // true
+
+// match()
+'Hello World React'.match(/\w+/g); // ['Hello','World','React']
+
+'2024-01-15'.match(/(\d{4})-(\d{2})-(\d{2})/);
+// ['2024-01-15', '2024', '01', '15', ...]
+
+// Named groups (ES2018) — clean!
+const dateResult = '2024-01-15'.match(
+  /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/
+);
+const { year, month, day } = dateResult.groups;
+console.log(year, month, day); // 2024 01 15
+
+// replace()
+'Hello World'.replace(/World/, 'React');         // 'Hello React'
+'hello world'.replace(/\b\w/g, c => c.toUpperCase()); // 'Hello World'
+'camelCase'.replace(/([A-Z])/g, '_$1').toLowerCase(); // 'camel_case'
+
+// split()
+'one,two;three|four'.split(/[,;|]/); // ['one','two','three','four']
+
+// React Form Validation
+function useValidation() {
+  const rules = {
+    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    phone: /^[6-9]\d{9}$/,
+    password: /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    pincode: /^\d{6}$/,
+    pan: /^[A-Z]{5}\d{4}[A-Z]$/,
+  };
+
+  return (field, value) => rules[field]?.test(value) ?? true;
+}
+
+// Common character classes reference
+// \d  = [0-9] digit
+// \w  = [a-zA-Z0-9_] word char
+// \s  = whitespace
+// .   = any char except newline
+// ^   = string start
+// $   = string end
+// +   = 1 or more, * = 0 or more, ? = 0 or 1
+// {n,m} = n to m times`,
+        qa: [
+          { q: 'Lookahead aur lookbehind kya hote hain regex mein?', a: '<b>Lookahead</b> <code>(?=pattern)</code>: aage ye pattern hai check karo, match mein include mat karo. <b>Negative lookahead</b> <code>(?!pattern)</code>: aage ye pattern NAHI hai. <b>Lookbehind</b> <code>(?&lt;=pattern)</code>: peeche ye pattern hai. Example password: <code>/^(?=.*[A-Z])(?=.*[0-9]).{8,}$/</code> — uppercase AND digit hona chahiye. Lookaheads position check karte hain, consume nahi karte.' },
+          { q: 'Regex mein test() vs match() vs exec() kab use karein?', a: '<code>test()</code>: boolean chahiye — pattern hai ya nahi. Fastest. <code>match()</code>: matches array chahiye. g flag = sab matches. No g = first match + groups. <code>matchAll()</code>: sab matches + groups (iterator). <code>exec()</code>: step-by-step match, stateful, loop mein use karo. <code>replace()</code>: replace + optionally transform. <code>search()</code>: pehle match ka index.' },
+        ]
+      },
+
+      {
+        id: 'web_apis', grp: 'js', sec: 'Browser APIs', color: '#60a5fa', icon: '🌐',
+        label: 'Important Web APIs',
+        tag: 'Browser APIs', tagColor: 'rgba(96,165,250,.2)', tagText: '#60a5fa',
+        tagline: 'IntersectionObserver, MutationObserver, Web Workers, Fetch API — modern browser tools',
+        what: `Browser built-in APIs: <b>Fetch API</b> (HTTP requests), <b>IntersectionObserver</b> (visibility detection), <b>MutationObserver</b> (DOM changes), <b>Web Workers</b> (background threads), <b>WebSocket</b> (real-time), <b>localStorage/sessionStorage</b>.`,
+        why: `Ye APIs performance-critical features enable karte hain: lazy loading (IntersectionObserver), real-time updates (WebSocket), heavy computation without UI freeze (Web Worker).`,
+        when: `Lazy loading images (IntersectionObserver), infinite scroll (IntersectionObserver), real-time chat (WebSocket), heavy data processing (Web Worker), virtual DOM watchers (MutationObserver).`,
+        where: `E-commerce image lazy loading, social feed infinite scroll, chat applications, data visualization with heavy computation.`,
+        how: `<code>new IntersectionObserver(callback, options).observe(element)</code>. <code>new Worker('./worker.js')</code>. <code>new WebSocket('ws://...')</code>.`,
+        warn: `Web Workers DOM access nahi kar sakte. WebSocket reconnection logic manually implement karna padta hai. IntersectionObserver cleanup zaroori hai — observer.disconnect() on unmount.`,
+        tip: `React mein IntersectionObserver custom hook mein wrap karo: <code>useIntersectionObserver(ref, options)</code> — reusable lazy loading!`,
+        code: `// 1. IntersectionObserver — Lazy Loading
+function LazyImage({ src, alt }) {
+  const [visible, setVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect(); // Ek baar load hone ke baad stop
+        }
+      },
+      { rootMargin: '200px', threshold: 0.1 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect(); // Cleanup!
+  }, []);
+
+  return (
+    <div ref={ref} style={{ minHeight: 200 }}>
+      {visible && <img src={src} alt={alt} loading="lazy" />}
+    </div>
+  );
+}
+
+// 2. Fetch API — HTTP requests
+async function apiCall(url, options = {}) {
+  const defaultOptions = {
+    headers: { 'Content-Type': 'application/json' },
+    ...options,
+  };
+
+  const response = await fetch(url, defaultOptions);
+  if (!response.ok) throw new Error(\`HTTP \${response.status}: \${response.statusText}\`);
+  return response.json();
+}
+
+// POST request
+await apiCall('/api/users', {
+  method: 'POST',
+  body: JSON.stringify({ name: 'Rahul', email: 'r@example.com' }),
+});
+
+// 3. Web Worker — Heavy computation
+// main.js
+const worker = new Worker(new URL('./heavy.worker.js', import.meta.url));
+
+function processData(largeArray) {
+  return new Promise((resolve, reject) => {
+    worker.postMessage({ data: largeArray });
+    worker.onmessage = e => resolve(e.data);
+    worker.onerror = e => reject(e);
+  });
+}
+
+// heavy.worker.js
+self.onmessage = ({ data: { data } }) => {
+  const result = data.map(x => x * x).filter(x => x > 100);
+  self.postMessage(result); // Main thread ko bhejo
+};
+
+// 4. MutationObserver
+const observer = new MutationObserver(mutations => {
+  mutations.forEach(mutation => {
+    console.log('DOM changed:', mutation.type, mutation.target);
+  });
+});
+observer.observe(document.body, { childList: true, subtree: true });
+
+// 5. WebSocket
+const ws = new WebSocket('wss://api.example.com/chat');
+ws.onopen = () => ws.send(JSON.stringify({ type: 'join', room: 'general' }));
+ws.onmessage = e => console.log('Message:', JSON.parse(e.data));
+ws.onclose = () => console.log('Connection closed');
+ws.onerror = e => console.error('WS Error:', e);`,
+        qa: [
+          { q: 'IntersectionObserver kya hai aur React mein kaise use karein?', a: 'IntersectionObserver = element ka viewport mein visibility detect karne ka API. Lazy loading, infinite scroll, animations trigger karne ke liye. React mein custom hook banao: useIntersectionObserver(ref, options) — ref aur isVisible return karo. Cleanup mein disconnect() karo. Native <code>loading="lazy"</code> attribute bhi available hai images ke liye — simpler option.' },
+          { q: 'Web Worker kab use karein?', a: 'Jab heavy computation (sorting large datasets, image processing, crypto) main thread block kare — UI freeze ho jaye. Worker separate thread mein chalta hai. Limitations: DOM access nahi, same-origin files only. Message passing se communicate karo. React mein: useMemo first try karo, phir Worker. Comlink library Web Workers use karna easy banati hai (Proxy-based API).' },
+        ]
+      },
+
+      // ─────────────────────────────────────────────
+      // REACT ADVANCED
+      // ─────────────────────────────────────────────
+      {
+        id: 'useref_forward', grp: 'react', sec: 'React Hooks', color: '#fb923c', icon: '🔗',
+        label: 'useRef & forwardRef',
+        tag: 'React Hooks', tagColor: 'rgba(251,146,60,.2)', tagText: '#fb923c',
+        tagline: 'DOM directly access karo ya render trigger kiye bina value store karo',
+        what: `<code>useRef</code> = mutable container jiska <code>.current</code> change hone pe re-render trigger nahi hoti. Uses: 1) DOM element access. 2) Render ke beech value persist. <code>forwardRef</code> = parent ko child DOM element ka ref milta hai.`,
+        why: `Kuch cases mein React ke through direct DOM access chahiye: input focus, scroll, canvas, video player, third-party library integration. useRef in cases ke liye perfect hai.`,
+        when: `Input focus karna, scroll position control, animation triggers, timer IDs store karna, previous value track karna, third-party DOM library integration.`,
+        where: `Form inputs (auto-focus), video/audio players, canvas animations, drag & drop, scroll-to section.`,
+        how: `<code>const ref = useRef(null)</code>. JSX pe: <code>&lt;input ref={ref} /&gt;</code>. Access: <code>ref.current.focus()</code>. forwardRef: component wrap karo aur ref prop forward karo.`,
+        warn: `useRef se direct DOM mutation karo sirf jab React ke through nahi ho sakta — React DOM control prefer karta hai. useRef ko useState ki jagah use mat karo (UI update nahi hogi).`,
+        tip: `Previous value store karne ka pattern: <code>const prevRef = useRef(); useEffect(() => { prevRef.current = value; });</code> — render ke baad update hota hai.`,
+        code: `import { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
+
+// 1. DOM Access — auto-focus input
+function SearchBar() {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current?.focus(); // Mount pe focus
+  }, []);
+
+  const clear = () => {
+    inputRef.current.value = '';  // Direct DOM manipulation
+    inputRef.current.focus();
+  };
+
+  return (
+    <div>
+      <input ref={inputRef} type="text" placeholder="Search..." />
+      <button onClick={clear}>Clear</button>
+    </div>
+  );
+}
+
+// 2. Value persist — no re-render
+function Stopwatch() {
+  const [time, setTime] = useState(0);
+  const [running, setRunning] = useState(false);
+  const intervalRef = useRef(null); // Timer ID store!
+
+  const start = () => {
+    if (!running) {
+      intervalRef.current = setInterval(() => setTime(t => t + 1), 1000);
+      setRunning(true);
+    }
+  };
+
+  const stop = () => {
+    clearInterval(intervalRef.current); // Saved ID use!
+    setRunning(false);
+  };
+
+  return <div>{time}s <button onClick={start}>Start</button> <button onClick={stop}>Stop</button></div>;
+}
+
+// 3. Previous value track
+function usePrevious(value) {
+  const prevRef = useRef();
+  useEffect(() => {
+    prevRef.current = value; // After render update
+  });
+  return prevRef.current; // Previous render value
+}
+
+// 4. forwardRef — parent ko child DOM milta hai
+const MyInput = forwardRef(function(props, ref) {
+  return <input ref={ref} className="custom-input" {...props} />;
+});
+
+function Parent() {
+  const inputRef = useRef(null);
+  return (
+    <>
+      <MyInput ref={inputRef} placeholder="Type here..." />
+      <button onClick={() => inputRef.current?.focus()}>Focus Input</button>
+    </>
+  );
+}
+
+// 5. useImperativeHandle — selective exposure
+const FancyModal = forwardRef(function(props, ref) {
+  const [open, setOpen] = useState(false);
+
+  useImperativeHandle(ref, () => ({
+    open: () => setOpen(true),   // Expose specific methods only
+    close: () => setOpen(false),
+    // Not exposing everything — better encapsulation!
+  }));
+
+  return open ? <div className="modal">{props.children}</div> : null;
+});
+
+function App() {
+  const modalRef = useRef(null);
+  return (
+    <>
+      <button onClick={() => modalRef.current.open()}>Open Modal</button>
+      <FancyModal ref={modalRef}>Content here</FancyModal>
+    </>
+  );
+}`,
+        qa: [
+          { q: 'useRef aur useState mein kya fark hai?', a: '<b>useState</b>: value change pe re-render trigger karta hai. <b>useRef</b>: .current change pe re-render nahi. Dono render ke beech value persist karte hain. Rule: agar UI mein dikhana hai → useState. Agar background mein track karna hai (timer ID, previous value, DOM ref) → useRef. Common mistake: useRef ko counter banana — renders mein badhega lekin UI nahi dikhega.' },
+          { q: 'forwardRef kab zaroori hai?', a: 'Normally ref prop child components pe kaam nahi karta — sirf DOM elements pe. forwardRef parent ko allow karta hai ki child component ke andar ke DOM element ka ref le sake. Use case: custom Input, Button, Modal jo parent ko direct DOM access dete hain. useImperativeHandle ke saath: specific methods expose karo (focus, scroll) poora DOM dene ke bajaye — better encapsulation.' },
+        ]
+      },
+
+      {
+        id: 'react18_features', grp: 'react', sec: 'React 18', color: '#f472b6', icon: '🚀',
+        label: 'React 18 — Concurrent Features',
+        tag: 'React 18', tagColor: 'rgba(244,114,182,.2)', tagText: '#f472b6',
+        tagline: 'useTransition, useDeferredValue, Suspense data fetching — React ka future',
+        what: `React 18 = Concurrent rendering. Rendering interruptible hai ab. <b>useTransition</b>: non-urgent updates defer karo. <b>useDeferredValue</b>: value ko lag-behind karne do. <b>Automatic batching</b>: sab async updates batch. <b>Suspense</b> data fetching.`,
+        why: `React 17: rendering block hoti thi — ek baar shuru hoti thi toh UI freeze. React 18: high-priority updates (user input) low-priority (heavy render) ko interrupt kar sakte hain. Smoother UX.`,
+        when: `Heavy list filtering/search (useTransition), expensive child renders (useDeferredValue), large state updates jo UI ko slow karein.`,
+        where: `Search inputs with large results, tab switching, pagination, any interaction triggering expensive re-renders.`,
+        how: `<code>const [isPending, startTransition] = useTransition()</code>. Wrap non-urgent setState: <code>startTransition(() => setResults(filtered))</code>.`,
+        warn: `Don't wrap everything in useTransition. Sirf genuinely slow renders ke liye. startTransition ke andar synchronous code hona chahiye — async nahi.`,
+        tip: `<b>Automatic batching</b> (React 18): setTimeout, Promise, native events mein bhi updates batch hote hain ab! React 17 mein sirf event handlers mein hota tha.`,
+        code: `import { useState, useTransition, useDeferredValue, startTransition } from 'react';
+
+// 1. useTransition — Non-urgent update defer karo
+function SearchPage() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+  const [isPending, startTransition] = useTransition();
+
+  const handleChange = (e) => {
+    setQuery(e.target.value); // URGENT: input immediately update
+
+    startTransition(() => {
+      // NON-URGENT: React can interrupt this if user types again!
+      const filtered = heavyFilter(allItems, e.target.value);
+      setResults(filtered);
+    });
+  };
+
+  return (
+    <div>
+      <input value={query} onChange={handleChange} />
+      {isPending
+        ? <span>Searching...</span>
+        : <ResultList items={results} />
+      }
+    </div>
+  );
+}
+
+// 2. useDeferredValue — child ke liye deferred value
+function Parent() {
+  const [text, setText] = useState('');
+  const deferredText = useDeferredValue(text);
+  // text — immediate update
+  // deferredText — lags behind during heavy renders
+
+  const isStale = text !== deferredText;
+
+  return (
+    <div>
+      <input value={text} onChange={e => setText(e.target.value)} />
+      <div style={{ opacity: isStale ? 0.7 : 1 }}>
+        {/* ExpensiveList uses deferred value — won't block input */}
+        <ExpensiveList filter={deferredText} />
+      </div>
+    </div>
+  );
+}
+
+// 3. Automatic Batching (React 18)
+// React 17: sirf React event handlers mein batch hota tha
+// React 18: EVERYWHERE batch hota hai!
+setTimeout(() => {
+  setCount(c => c + 1);  // React 18: sirf 1 re-render!
+  setFlag(f => !f);       // Dono ek saath
+}, 0);
+
+fetch('/api').then(() => {
+  setLoading(false);      // React 18: batch!
+  setData(result);        // Ek hi render!
+});
+
+// Opt-out agar immediate render chahiye
+import { flushSync } from 'react-dom';
+flushSync(() => {
+  setCount(c => c + 1);  // Immediate render
+});
+// DOM updated here
+setFlag(f => !f);         // Another render
+
+// 4. createRoot (React 18 entry point)
+import { createRoot } from 'react-dom/client';
+const root = createRoot(document.getElementById('root'));
+root.render(<App />);
+// React 17: ReactDOM.render(<App />, document.getElementById('root'));`,
+        qa: [
+          { q: 'useTransition aur useDeferredValue mein kya fark hai?', a: '<b>useTransition</b>: state update ko non-urgent mark karo — aapke paas update trigger pe control hai. isPending flag milta hai. <b>useDeferredValue</b>: ek value ko defer karo — useful jab update source control nahi kar sakte (prop from parent). useTransition = "ye update rush nahi" (aap setState control karo). useDeferredValue = "ye value slowly update ho" (dusre ke state pe depend).' },
+          { q: 'React 18 Automatic Batching kya hai?', a: 'React 17: sirf React event handlers mein updates batch hote the. setTimeout, Promise, native events mein: har setState alag render. React 18: SAB JAGAH auto-batch — setTimeout, Promise.then, addEventListener. Result: kam re-renders, better performance. Opt-out: flushSync() — immediate render chahiye toh. Most cases mein auto-batching benefit hai.' },
+        ]
+      },
+
+      {
+        id: 'portals_fragments', grp: 'react', sec: 'React Core', color: '#38bdf8', icon: '🚪',
+        label: 'Portals & Fragments',
+        tag: 'React Core', tagColor: 'rgba(56,189,248,.2)', tagText: '#38bdf8',
+        tagline: 'Portals DOM hierarchy se bahar render karo, Fragments extra divs se bachao',
+        what: `<b>Portal</b>: React component ko DOM hierarchy se bahar render karo (like document.body pe). <b>Fragment</b>: multiple elements return karo without extra DOM node — <code>&lt;&gt;&lt;/&gt;</code> ya <code>&lt;Fragment&gt;</code>.`,
+        why: `Portals: modals, tooltips, dropdowns jo overflow:hidden ya z-index issues se clip ho sakti hain — inhe DOM root pe render karna better. Fragments: table/flex layouts mein extra div structure todta hai.`,
+        when: `Portals: modal dialogs, tooltips, dropdowns, notifications, context menus. Fragments: list items, table rows, multiple sibling JSX elements.`,
+        where: `Modal system, toast notifications, dropdown menus, table rows, flex children, any multiple-return components.`,
+        how: `Portal: <code>createPortal(children, document.getElementById('modal-root'))</code>. Fragment: <code>&lt;&gt;...&lt;/&gt;</code> shorthand ya key ke liye <code>&lt;Fragment key={id}&gt;</code>.`,
+        warn: `Portal events still bubble through React tree (not DOM tree) — event delegation correctly kaam karta hai. Portals mein SSR pe extra setup chahiye. Fragment shorthand (<code>&lt;&gt;</code>) key prop support nahi karta.`,
+        tip: `index.html mein <code>&lt;div id="modal-root"&gt;&lt;/div&gt;</code> add karo <code>#root</code> ke saath. Sab modals us portal mein render karo — z-index issues automatically solve.`,
+        code: `import { createPortal, Fragment } from 'react';
+
+// PORTAL — Modal Example
+function Modal({ isOpen, onClose, title, children }) {
+  if (!isOpen) return null;
+
+  return createPortal(
+    // Ye content document.body mein render hoga, not parent div!
+    <div
+      style={{
+        position: 'fixed', inset: 0, zIndex: 9999,
+        background: 'rgba(0,0,0,0.6)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}
+      onClick={onClose}          // Backdrop click = close
+    >
+      <div
+        style={{
+          background: 'white', borderRadius: '12px',
+          padding: '24px', maxWidth: '500px', width: '90%',
+        }}
+        onClick={e => e.stopPropagation()} // Andar click = don't close
+      >
+        <h2>{title}</h2>
+        {children}
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>,
+    document.getElementById('modal-root') // Render target!
+  );
+}
+
+// Usage
+function App() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button onClick={() => setOpen(true)}>Open Modal</button>
+      <Modal isOpen={open} onClose={() => setOpen(false)} title="Hello!">
+        <p>Modal content yahan hai.</p>
+      </Modal>
+    </>
+  );
+}
+
+// FRAGMENT — No extra DOM
+// ❌ Extra div — table layout break!
+function TableRow({ item }) {
+  return (
+    <div>   {/* tbody ka direct child div invalid hai! */}
+      <td>{item.name}</td>
+      <td>{item.price}</td>
+    </div>
+  );
+}
+
+// ✅ Fragment — clean DOM
+function TableRow({ item }) {
+  return (
+    <>
+      <td>{item.name}</td>
+      <td>{item.price}</td>
+    </>
+  );
+}
+
+// Fragment with key (shorthand nahi, explicit Fragment)
+function DefinitionList({ items }) {
+  return (
+    <dl>
+      {items.map(item => (
+        <Fragment key={item.id}>  {/* Key required, <> supports nahi */}
+          <dt>{item.term}</dt>
+          <dd>{item.definition}</dd>
+        </Fragment>
+      ))}
+    </dl>
+  );
+}`,
+        qa: [
+          { q: 'Portal kab zaroori hai? createPortal explain karo.', a: 'Portal isliye chahiye: overflow:hidden parent ke andar modal clip ho jaayegi, z-index stacking context issues, CSS isolation chahiye. createPortal(jsx, domNode): JSX ko domNode mein render karta hai lekin React tree mein parent hi rehta hai. Key point: events still React tree ke through bubble karte hain — onClick, context sab kaam karte hain. Portal sirf DOM placement change karta hai.' },
+          { q: 'Fragment vs div — kab kya use karein?', a: '<b>Div</b>: actual wrapper element chahiye (styling, event handling). <b>Fragment</b>: sirf grouping (no DOM output). Fragment zaroori: table rows (tr/td direct child chahiye tbody ka), flex/grid children (extra div layout break), list items, multiple siblings without semantic wrapper. Performance: Fragment se fewer DOM nodes = faster. Default choice: Fragment, div tabhi jab actual element semantically correct ho.' },
+        ]
+      },
+
+      {
+        id: 'forms_react', grp: 'react', sec: 'React Patterns', color: '#fbbf24', icon: '📝',
+        label: 'Forms & Validation',
+        tag: 'React Patterns', tagColor: 'rgba(251,191,36,.2)', tagText: '#fbbf24',
+        tagline: 'Controlled vs uncontrolled inputs, React Hook Form, Zod validation',
+        what: `<b>Controlled components</b>: React state form values drive karta hai — har keystroke state update karta hai. <b>Uncontrolled</b>: DOM manages values, ref se access. <b>React Hook Form</b>: performance-optimized form library.`,
+        why: `Controlled forms: real-time validation, conditional fields, full control. Lekin har keystroke re-render = performance issue large forms mein. React Hook Form: uncontrolled internally — no re-renders jab tak validation na ho.`,
+        when: `Controlled: simple forms, real-time validation needed. React Hook Form: production forms, complex validation, performance matters. Uncontrolled: file inputs (always), simple single-field.`,
+        where: `Login, registration, checkout, settings, search — koi bhi user input. React Hook Form + Zod = 2024 production standard.`,
+        how: `RHF: <code>const {register, handleSubmit, formState:{errors}} = useForm({resolver: zodResolver(schema)})</code>.`,
+        warn: `Controlled forms large scale pe slow ho sakte hain. React Hook Form use karo. Zod schema type-safe validation provide karta hai — TypeScript ke saath excellent.`,
+        tip: `<code>watch()</code> from RHF: form values real-time observe karo. <code>setValue()</code>: programmatically set karo. <code>reset()</code>: form clear karo. <code>trigger()</code>: manual validation trigger.`,
+        code: `// 1. Controlled Component — basic
+function LoginForm() {
+  const [form, setForm] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({});
+
+  const handleChange = ({ target: { name, value } }) => {
+    setForm(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
+  };
+
+  const validate = () => {
+    const errs = {};
+    if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = 'Valid email likhein';
+    if (form.password.length < 6) errs.password = 'Min 6 characters';
+    return errs;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+    console.log('Submit:', form);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name="email" value={form.email} onChange={handleChange} placeholder="Email" />
+      {errors.email && <span style={{color:'red'}}>{errors.email}</span>}
+      <input name="password" type="password" value={form.password} onChange={handleChange} />
+      {errors.password && <span style={{color:'red'}}>{errors.password}</span>}
+      <button type="submit">Login</button>
+    </form>
+  );
+}
+
+// 2. React Hook Form + Zod (Production Standard 2024!)
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+// Zod schema — type-safe validation
+const loginSchema = z.object({
+  email: z.string().email('Valid email likhein'),
+  password: z.string().min(6, 'Min 6 characters chahiye').max(50),
+  age: z.number({ invalid_type_error: 'Number likhein' }).min(18, '18+ hona chahiye'),
+  role: z.enum(['user', 'admin'], { required_error: 'Role select karein' }),
+});
+
+type LoginForm = z.infer<typeof loginSchema>; // Auto TypeScript type!
+
+function LoginFormRHF() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid },
+    reset,
+    watch,
+  } = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: '', password: '' },
+    mode: 'onChange', // Validate on every change
+  });
+
+  const emailValue = watch('email'); // Real-time watch
+
+  const onSubmit = async (data: LoginForm) => {
+    await loginAPI(data); // Type-safe data!
+    reset();
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('email')} placeholder="Email" />
+      {errors.email && <p style={{color:'red'}}>{errors.email.message}</p>}
+
+      <input {...register('password')} type="password" />
+      {errors.password && <p style={{color:'red'}}>{errors.password.message}</p>}
+
+      <button type="submit" disabled={isSubmitting || !isValid}>
+        {isSubmitting ? 'Logging in...' : 'Login'}
+      </button>
+    </form>
+  );
+}`,
+        qa: [
+          { q: 'Controlled vs Uncontrolled components kab use karein?', a: '<b>Controlled</b>: React state har value track karta hai. Real-time validation, conditional fields, reset easy. Downside: har keystroke re-render. <b>Uncontrolled</b>: DOM manage karta hai, ref se access. Simple setup, no re-renders, file input (always uncontrolled). <b>2024 recommendation</b>: React Hook Form — controlled experience + uncontrolled performance (internally register refs use karta hai).' },
+          { q: 'Zod kya hai? Yup se kaise alag hai?', a: '<b>Zod</b>: TypeScript-first schema validation. Schema se TypeScript types auto-generate (<code>z.infer</code>). Tree-shakeable, smaller bundle. Better error messages. <b>Yup</b>: older library, JS-first, larger bundle, less TS support. React Hook Form dono support karta hai (zodResolver/yupResolver). 2024 recommendation: Zod — TypeScript integration excellent hai.' },
+        ]
+      },
+
+      {
+        id: 'hoc_render_props', grp: 'react', sec: 'React Patterns', color: '#a78bfa', icon: '🧩',
+        label: 'HOC, Render Props & Compound Components',
+        tag: 'React Patterns', tagColor: 'rgba(167,139,250,.2)', tagText: '#a78bfa',
+        tagline: 'Component logic share karne ke advanced patterns — aur custom hooks comparison',
+        what: `<b>HOC</b> (Higher Order Component): function jo component leke enhanced component return karta hai. <b>Render Props</b>: component function prop accept karta hai logic share karne ke liye. <b>Compound Components</b>: related components jo context share karte hain.`,
+        why: `React mein logic share karne ke multiple ways hain. HOC: cross-cutting concerns (auth, logging). Render Props: rendering behavior share. Compound Components: flexible component APIs. Custom Hooks: 2024 mein preferred — simpler, no wrapper hell.`,
+        when: `HOC: auth wrappers, analytics, third-party lib integration. Render Props: render control share karna. Compound: Tab, Accordion, Select jaise complex UI. Custom Hooks: almost always — simpler.`,
+        where: `withAuth (HOC), MouseTracker (Render Props), Tabs/Accordion/Select (Compound), useFetch/useForm (Custom Hook).`,
+        how: `HOC: <code>function withAuth(Component) { return function(props) { ... return &lt;Component {...props} /&gt;; }; }</code>`,
+        warn: `HOC "wrapper hell" create kar sakta hai — multiple HOCs nest kiye toh DevTools mein confusing. Custom hooks prefer karo. Render props bhi verbose hote hain.`,
+        tip: `Compound Components = React.Children + Context combo. Select, Tabs jaise components ke liye perfect pattern — consumer ko flexible API milti hai.`,
+        code: `// 1. HOC — Higher Order Component
+function withAuth(WrappedComponent) {
+  function AuthenticatedComponent(props) {
+    const { user, loading } = useAuth();
+
+    if (loading) return <Spinner />;
+    if (!user) return <Navigate to="/login" replace />;
+
+    return <WrappedComponent {...props} user={user} />;
+  }
+  // DevTools mein naam dikhao
+  AuthenticatedComponent.displayName = \`withAuth(\${WrappedComponent.displayName})\`;
+  return AuthenticatedComponent;
+}
+
+const ProtectedDashboard = withAuth(Dashboard);
+const ProtectedProfile = withAuth(Profile);
+
+// 2. Render Props
+function MouseTracker({ render }) {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+
+  return (
+    <div onMouseMove={e => setPos({ x: e.clientX, y: e.clientY })}>
+      {render(pos)} {/* Consumer decides what to render! */}
+    </div>
+  );
+}
+
+// Usage
+<MouseTracker render={({ x, y }) => (
+  <Tooltip x={x} y={y}>Custom tooltip!</Tooltip>
+)} />
+
+// 3. Custom Hook (same as Render Props, simpler!)
+function useMouse() {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    const handler = e => setPos({ x: e.clientX, y: e.clientY });
+    window.addEventListener('mousemove', handler);
+    return () => window.removeEventListener('mousemove', handler);
+  }, []);
+  return pos;
+}
+// Usage: const { x, y } = useMouse(); — much simpler!
+
+// 4. Compound Components — Flexible API
+const TabContext = createContext(null);
+
+function Tabs({ children, defaultTab }) {
+  const [active, setActive] = useState(defaultTab);
+  return (
+    <TabContext.Provider value={{ active, setActive }}>
+      <div className="tabs">{children}</div>
+    </TabContext.Provider>
+  );
+}
+
+Tabs.List = function TabList({ children }) {
+  return <div className="tab-list">{children}</div>;
+};
+
+Tabs.Tab = function Tab({ id, children }) {
+  const { active, setActive } = useContext(TabContext);
+  return (
+    <button
+      className={\`tab \${active === id ? 'active' : ''}\`}
+      onClick={() => setActive(id)}
+    >{children}</button>
+  );
+};
+
+Tabs.Panel = function Panel({ id, children }) {
+  const { active } = useContext(TabContext);
+  return active === id ? <div>{children}</div> : null;
+};
+
+// Flexible usage — consumer controls structure!
+<Tabs defaultTab="react">
+  <Tabs.List>
+    <Tabs.Tab id="js">JavaScript</Tabs.Tab>
+    <Tabs.Tab id="react">React</Tabs.Tab>
+  </Tabs.List>
+  <Tabs.Panel id="js"><JSContent /></Tabs.Panel>
+  <Tabs.Panel id="react"><ReactContent /></Tabs.Panel>
+</Tabs>`,
+        qa: [
+          { q: 'HOC vs Render Props vs Custom Hooks — 2024 mein kya prefer karein?', a: '<b>Custom Hooks</b>: almost always — simple, composable, no wrapper nesting, easy testing. <b>HOC</b>: jab component wrapping semantically sense banaye (withAuth, withErrorBoundary, React.memo, connect). <b>Render Props</b>: rare — jab consumer ko rendering control dena ho. <b>Compound Components</b>: flexible UI components banane ke liye (Tabs, Accordion, Select). Rule: Custom Hook → HOC → Render Props (in preference order).' },
+          { q: 'Compound Components pattern kab use karein?', a: 'Jab complex UI component ke liye flexible API chahiye — consumer ko structure control dena ho. Examples: Select/Dropdown (trigger + options), Tabs (list + panels), Modal (trigger + content + footer), Accordion. Benefits: flexible layout, shared state internally, consumer worry-free about state management. Context + sub-components = compound pattern. React libraries (Radix UI, Headless UI) sab compound pattern use karte hain.' },
+        ]
+      },
+
+      {
+        id: 'ssr_csr_ssg', grp: 'react', sec: 'Architecture', color: '#2dd4bf', icon: '🖥️',
+        label: 'SSR vs CSR vs SSG — Rendering Strategies',
+        tag: 'Architecture', tagColor: 'rgba(45,212,191,.2)', tagText: '#2dd4bf',
+        tagline: 'Teen rendering strategies — sahi choose karna performance aur SEO ke liye critical',
+        what: `<b>CSR</b> (Client-Side Rendering): browser mein JS chalti hai, HTML client pe generate. <b>SSR</b> (Server-Side Rendering): har request pe server HTML generate karta hai. <b>SSG</b> (Static Site Generation): build time pe HTML generate. <b>ISR</b> (Incremental Static Regeneration): SSG + time-based revalidation.`,
+        why: `Rendering strategy determine karta hai: TTFB, LCP, SEO, user experience. CSR = poor SEO, slow initial. SSR = good SEO, fresh data, server load. SSG = best performance, CDN friendly. ISR = best of both.`,
+        when: `CSR: dashboards, admin panels, auth-gated apps (SEO needed nahi). SSR: product pages, news, user-specific content. SSG: blogs, docs, marketing. ISR: e-commerce (price change hoti hai but not every second).`,
+        where: `Next.js har route ke liye alag strategy support karta hai. React Server Components (RSC) = new paradigm.`,
+        how: `Next.js: <code>getServerSideProps</code> (SSR), <code>getStaticProps</code> (SSG), <code>revalidate</code> (ISR), App Router async components (RSC).`,
+        warn: `SSR se SSG better hai agar data real-time nahi chahiye — SSG = CDN cache = zero server computation per request. Don't use CSR public SEO-critical pages ke liye.`,
+        tip: `React Server Components (Next.js App Router): server pe run, zero client JS. <code>async function Page() { const data = await fetch(...); return &lt;div&gt;{data}&lt;/div&gt;; }</code> — no useEffect needed!`,
+        code: `// CSR — Create React App / Vite
+// Empty HTML shell → JS load → React render → API fetch
+function App() {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    fetch('/api/data').then(r => r.json()).then(setData);
+  }, []);
+  return data ? <Page data={data} /> : <Loading />;
+}
+// ✅ Good: rich interactivity, no server needed
+// ❌ Bad: poor SEO, slow initial load, spinner flash
+
+// SSR — Next.js Pages Router
+// Server generates HTML on EVERY request
+export default function ProductPage({ product }) {
+  return <Product data={product} />;
+}
+
+export async function getServerSideProps({ params }) {
+  const product = await fetchProduct(params.id); // Server pe run!
+  return { props: { product } };
+}
+// ✅ Good: fresh data, SEO, personalized
+// ❌ Slower TTFB (server compute every request)
+
+// SSG — Build time HTML generation
+export default function BlogPost({ post }) {
+  return <Article data={post} />;
+}
+
+export async function getStaticProps({ params }) {
+  const post = await fetchPost(params.slug); // Build time!
+  return {
+    props: { post },
+    revalidate: 3600, // ISR: har ghante regenerate! ✅
+  };
+}
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  return {
+    paths: posts.map(p => ({ params: { slug: p.slug } })),
+    fallback: 'blocking', // New paths → SSR then cache
+  };
+}
+// ✅ Best performance (CDN), SEO perfect
+// ❌ Stale data possible, long build times
+
+// React Server Components (Next.js App Router — Future!)
+// Server Component — async, no 'use client'!
+async function ProductPage({ params }) {
+  // Direct database/API call — no useEffect!
+  const product = await db.products.findOne({ id: params.id });
+
+  return (
+    <div>
+      <ProductDetails product={product} />    {/* Server — no JS! */}
+      <AddToCartButton productId={product.id} /> {/* 'use client' */}
+    </div>
+  );
+}`,
+        qa: [
+          { q: 'SSR, CSR, SSG ke tradeoffs explain karo.', a: '<b>CSR</b>: empty HTML + JS. Pro: cheap hosting, great for auth apps. Con: poor SEO, slow initial. <b>SSR</b>: server every request pe HTML. Pro: fresh data, SEO, personalization. Con: slow TTFB, server load. <b>SSG</b>: build time HTML, CDN serve. Pro: fastest, perfect SEO. Con: stale data possible. <b>ISR</b>: SSG + periodic regen. Best of both. Most apps: SSG/ISR for public + CSR for auth pages.' },
+          { q: 'React Server Components kya hain?', a: 'RSC (React 18+ / Next.js App Router): Components server pe execute hote hain, zero client JS. Benefits: direct DB/filesystem access, sensitive code client pe nahi jaata, automatic code splitting, smaller bundles. "use client" likho tabi component interactive hota hai (useState, onClick). Mix: Server Component fetches data → passes to Client Component for interactivity. Future of React architecture.' },
+        ]
+      },
+
+      {
+        id: 'accessibility', grp: 'react', sec: 'React Patterns', color: '#86efac', icon: '♿',
+        label: 'Accessibility (a11y) in React',
+        tag: 'React Patterns', tagColor: 'rgba(134,239,172,.2)', tagText: '#86efac',
+        tagline: 'Inclusive React apps — ARIA, keyboard navigation, screen readers',
+        what: `Accessibility (a11y) = app ko sab ke liye usable banana — screen readers, keyboard-only users, motor impairments. React mein: ARIA attributes, semantic HTML, keyboard handlers, focus management.`,
+        why: `1 billion+ people globally have some disability. Accessibility: inclusive product banata hai, legal compliance (WCAG), better SEO (semantic HTML), better UX for all users.`,
+        when: `Hamesha! Accessibility design mein integrate karo — baad mein add karna mushkil aur expensive. React Testing Library role-based queries automatically accessibility encourage karti hai.`,
+        where: `Forms (labels), buttons (descriptive text), images (alt text), modals (focus trap), dynamic content (live regions), navigation (skip links).`,
+        how: `Semantic HTML use karo (<code>&lt;button&gt;</code> not <code>&lt;div onClick&gt;</code>). ARIA attributes. Keyboard handlers. Focus management with useRef.`,
+        warn: `<code>&lt;div onClick&gt;</code> = never! Keyboard users nahi navigate kar sakte. Button ya anchor use karo. Icon-only buttons: <code>aria-label</code> zaroor do.`,
+        tip: `axe DevTools browser extension install karo — accessibility issues automatically detect karta hai. Jest-axe library se automated accessibility tests likho.`,
+        code: `// ❌ Inaccessible
+<div onClick={handleClose}>✕</div>
+<div onClick={handleSubmit}>Submit</div>
+<img src="chart.png" />
+
+// ✅ Accessible
+<button onClick={handleClose} aria-label="Dialog band karo">✕</button>
+<button onClick={handleSubmit} type="submit">Submit</button>
+<img src="chart.png" alt="Monthly revenue chart showing 20% growth" />
+
+// ARIA roles aur attributes
+function Modal({ isOpen, onClose, title, children }) {
+  const firstFocusRef = useRef(null);
+
+  // Focus management — modal open hone pe focus andar jaaye
+  useEffect(() => {
+    if (isOpen) firstFocusRef.current?.focus();
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      role="dialog"              // Screen reader: "dialog"
+      aria-modal="true"          // Background nahi read karo
+      aria-labelledby="modal-title"  // Title se label
+      aria-describedby="modal-desc"
+    >
+      <h2 id="modal-title">{title}</h2>
+      <div id="modal-desc">{children}</div>
+      <button ref={firstFocusRef} onClick={onClose}>Close</button>
+    </div>
+  );
+}
+
+// Keyboard navigation
+function Dropdown({ options, onSelect }) {
+  const [open, setOpen] = useState(false);
+  const [focused, setFocused] = useState(0);
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') setOpen(o => !o);
+    if (e.key === 'ArrowDown') setFocused(f => Math.min(f+1, options.length-1));
+    if (e.key === 'ArrowUp') setFocused(f => Math.max(f-1, 0));
+    if (e.key === 'Escape') setOpen(false);
+    if (e.key === 'Enter' && open) onSelect(options[focused]);
+  };
+
+  return (
+    <div>
+      <button
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => setOpen(o => !o)}
+        onKeyDown={handleKeyDown}
+      >
+        Select option
+      </button>
+      {open && (
+        <ul role="listbox" aria-label="Options">
+          {options.map((opt, i) => (
+            <li
+              key={opt.id}
+              role="option"
+              aria-selected={i === focused}
+              tabIndex={0}
+              onClick={() => onSelect(opt)}
+            >
+              {opt.label}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+// Live region — dynamic content announce karo
+function Notification({ message }) {
+  return (
+    <div
+      aria-live="polite"     // Screen reader message announce karega
+      aria-atomic="true"
+      style={{ position:'absolute', left:'-9999px' }}  // Visually hidden
+    >
+      {message}
+    </div>
+  );
+}`,
+        qa: [
+          { q: 'React mein accessibility implement karne ke main points kya hain?', a: '1) Semantic HTML: button, nav, main, article, aside, header — proper elements. 2) Alt text: sab images pe. 3) ARIA: role, aria-label, aria-expanded, aria-live. 4) Keyboard: all interactive elements keyboard accessible. 5) Focus management: modal open/close pe focus. 6) Color contrast: WCAG AA = 4.5:1. 7) Form labels: every input pe label. Tools: axe DevTools, Lighthouse accessibility audit, jest-axe.' },
+          { q: 'ARIA kya hai aur kab use karein?', a: 'ARIA (Accessible Rich Internet Applications): HTML attributes jo semantic meaning add karte hain screen readers ke liye. Rules: 1) Pehle semantic HTML use karo — ARIA last resort. 2) No ARIA > bad ARIA. Examples: aria-label (descriptive name), aria-expanded (open/closed state), aria-live (dynamic content), role="dialog". When: custom components (dropdown, modal, tooltip) jo built-in HTML elements nahi hain.' },
+        ]
+      },
+
+      {
+        id: 'design_patterns', grp: 'js', sec: 'Design Patterns', color: '#f97316', icon: '🏗️',
+        label: 'JS Design Patterns',
+        tag: 'Design Patterns', tagColor: 'rgba(249,115,22,.2)', tagText: '#f97316',
+        tagline: 'Singleton, Observer, Factory, Module — reusable solutions to common problems',
+        what: `Design Patterns = common software problems ke proven solutions. Gang of Four patterns: Creational (Factory, Singleton), Structural (Adapter, Decorator), Behavioral (Observer, Strategy). JS mein module pattern bhi important hai.`,
+        why: `Design patterns: code reusability, maintainability, common vocabulary (team communication easy), proven solutions (reinvent the wheel mat karo). React khud patterns use karta hai — Observer (useState), Composite (component tree), Decorator (HOC).`,
+        when: `Jab: multiple similar objects banana ho (Factory), ek hi instance chahiye (Singleton), events broadcast karna ho (Observer), multiple algorithms interchange karna ho (Strategy).`,
+        where: `State management (Observer/Pub-Sub), component factories, plugin systems, event systems, API client wrappers.`,
+        how: `Pattern identify karo → implement karo → document karo. JS mein prototypes aur closures patterns implement karne dete hain.`,
+        warn: `Patterns over-use se code unnecessarily complex hota hai. Simple problems ke liye simple solutions. Pattern sirf tab lagao jab genuinely help kare.`,
+        tip: `React mein daily patterns: Observer (useState/useEffect), Composite (component tree), HOC (Decorator), Render Props/Hooks (Strategy), Context (Mediator).`,
+        code: `// 1. SINGLETON — Only one instance
+class DatabaseConnection {
+  static instance = null;
+
+  constructor(url) {
+    if (DatabaseConnection.instance) {
+      return DatabaseConnection.instance; // Existing return!
+    }
+    this.url = url;
+    this.connected = false;
+    DatabaseConnection.instance = this;
+  }
+
+  connect() { this.connected = true; console.log(\`Connected to \${this.url}\`); }
+}
+
+const db1 = new DatabaseConnection('mongodb://localhost');
+const db2 = new DatabaseConnection('mongodb://other');
+console.log(db1 === db2); // true — same instance!
+
+// 2. FACTORY — Object creation centralized
+class UserFactory {
+  static create(type, data) {
+    const types = {
+      admin: (d) => ({ ...d, permissions: ['read', 'write', 'delete'], role: 'admin' }),
+      user: (d) => ({ ...d, permissions: ['read'], role: 'user' }),
+      guest: (d) => ({ ...d, permissions: [], role: 'guest', expires: Date.now() + 86400000 }),
+    };
+
+    if (!types[type]) throw new Error(\`Unknown user type: \${type}\`);
+    return types[type](data);
+  }
+}
+
+const admin = UserFactory.create('admin', { name: 'Rahul' });
+const user = UserFactory.create('user', { name: 'Priya' });
+
+// 3. OBSERVER — Pub/Sub
+class EventEmitter {
+  constructor() { this.events = {}; }
+
+  on(event, listener) {
+    this.events[event] = this.events[event] || [];
+    this.events[event].push(listener);
+    return () => this.off(event, listener); // Unsubscribe function
+  }
+
+  off(event, listener) {
+    this.events[event] = this.events[event]?.filter(l => l !== listener);
+  }
+
+  emit(event, data) {
+    this.events[event]?.forEach(listener => listener(data));
+  }
+}
+
+const emitter = new EventEmitter();
+const unsub = emitter.on('userLogin', (user) => console.log('User logged in:', user));
+emitter.emit('userLogin', { name: 'Rahul' }); // Broadcast!
+unsub(); // Cleanup
+
+// 4. MODULE PATTERN — Encapsulation
+const CartModule = (() => {
+  let items = []; // Private!
+
+  return {
+    add(item) { items.push(item); },
+    remove(id) { items = items.filter(i => i.id !== id); },
+    getTotal() { return items.reduce((s, i) => s + i.price, 0); },
+    getCount() { return items.length; },
+  };
+})(); // IIFE — immediately invoked
+
+CartModule.add({ id: 1, name: 'Laptop', price: 50000 });
+console.log(CartModule.getTotal()); // 50000
+// CartModule.items — undefined (private!)
+
+// 5. STRATEGY — Interchangeable algorithms
+const sortStrategies = {
+  bubble: (arr) => { /* bubble sort */ return arr; },
+  quick: (arr) => [...arr].sort((a, b) => a - b),
+  merge: (arr) => { /* merge sort */ return arr; },
+};
+
+function sortData(data, strategy = 'quick') {
+  if (!sortStrategies[strategy]) throw new Error('Unknown strategy');
+  return sortStrategies[strategy](data);
+}
+
+sortData([3,1,4,1,5], 'quick');  // Strategy interchange!`,
+        qa: [
+          { q: 'Observer pattern kya hai? React mein kahan use hota hai?', a: 'Observer = object state change pe subscribers notify kare. Publisher-Subscriber relationship. React mein: useState = observer (component subscribes to state). useEffect = reaction to changes. Redux = global observer (store + subscribers). EventEmitter = custom pub/sub. Custom implementation: on/off/emit methods. Browser: addEventListener = observer pattern.' },
+          { q: 'Factory vs Constructor vs Class kab use karein?', a: '<b>Constructor/Class</b>: simple object creation, OOP hierarchy chahiye, TypeScript classes. <b>Factory function</b>: object creation logic complex ho, type se alag creation logic ho, private data chahiye (closure), composition over inheritance prefer. <b>Factory class static method</b>: centralized creation + class benefits. Rule: simple = class, complex creation logic = factory, private state = factory closure.' },
+        ]
+      },
+
+      {
+        id: 'performance_js', grp: 'js', sec: 'Performance', color: '#22d3ee', icon: '⚡',
+        label: 'JavaScript Performance',
+        tag: 'Performance', tagColor: 'rgba(34,211,238,.2)', tagText: '#22d3ee',
+        tagline: 'Memory leaks, DOM batching, memoization — JS code fast kaise likhe',
+        what: `JS performance = fast execution + no memory leaks + smooth rendering. Key areas: <b>DOM manipulation</b> (batch reads/writes), <b>memory management</b> (cleanup listeners), <b>algorithm complexity</b> (right data structure), <b>main thread blocking</b> (web workers).`,
+        why: `Slow JS = poor user experience + bad Core Web Vitals + lower Google ranking. Mobile devices especially sensitive hain — less CPU, less RAM.`,
+        when: `Large datasets, animations, real-time features, mobile-first apps, any perceived sluggishness.`,
+        where: `Event handlers, scroll/resize listeners, animation loops, data transformations, third-party integrations.`,
+        how: `Profile first (Chrome DevTools Performance tab). Identify bottleneck. Fix (batch DOM, memoize, Web Worker). Profile again.`,
+        warn: `Premature optimization time waste hai. <b>Measure first!</b> Dev tools se actual bottleneck find karo. Perceived performance bhi matters — skeleton loaders, optimistic UI.`,
+        tip: `Debounce resize/scroll: <code>window.addEventListener('resize', debounce(handler, 150))</code>. requestAnimationFrame for animations — browser refresh rate sync hota hai.`,
+        code: `// 1. Layout Thrashing — AVOID!
+// ❌ Read-Write alternation = multiple reflows
+elements.forEach(el => {
+  const h = el.offsetHeight;        // READ (forces reflow)
+  el.style.height = (h + 10) + 'px'; // WRITE
+});
+
+// ✅ Batch reads, then writes
+const heights = elements.map(el => el.offsetHeight); // All reads
+elements.forEach((el, i) => el.style.height = (heights[i]+10)+'px'); // All writes
+
+// 2. requestAnimationFrame — smooth animation
+function animate(timestamp) {
+  const progress = (timestamp - start) / duration;
+  element.style.transform = \`translateX(\${progress * 300}px)\`;
+
+  if (progress < 1) requestAnimationFrame(animate); // Next frame
+}
+const start = performance.now();
+requestAnimationFrame(animate); // Start!
+
+// 3. Memoization — cache expensive results
+function memoize(fn) {
+  const cache = new Map();
+  return function(...args) {
+    const key = JSON.stringify(args);
+    if (cache.has(key)) return cache.get(key);
+    const result = fn.apply(this, args);
+    cache.set(key, result);
+    return result;
+  };
+}
+
+const expensiveCalc = memoize((n) => {
+  // Fibonacci as example
+  if (n <= 1) return n;
+  return expensiveCalc(n-1) + expensiveCalc(n-2);
+});
+
+// 4. Memory leak prevention
+function Component() {
+  useEffect(() => {
+    const handler = () => { /* ... */ };
+    window.addEventListener('resize', handler);
+    const timer = setInterval(() => { /* ... */ }, 1000);
+    const ws = new WebSocket('wss://...');
+
+    return () => {
+      // ✅ Sab cleanup karo!
+      window.removeEventListener('resize', handler);
+      clearInterval(timer);
+      ws.close();
+    };
+  }, []);
+}
+
+// 5. Efficient data structures
+// ❌ Slow — O(n) lookup
+const arr = [{ id: 1 }, { id: 2 }, ...];
+const item = arr.find(x => x.id === 5); // Linear search!
+
+// ✅ Fast — O(1) lookup
+const map = new Map(arr.map(x => [x.id, x]));
+const item2 = map.get(5); // Instant!
+
+// 6. Debounce & Throttle
+const debounce = (fn, ms) => {
+  let timer;
+  return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), ms); };
+};
+
+const throttle = (fn, ms) => {
+  let last = 0;
+  return (...args) => { const now = Date.now(); if (now-last >= ms) { last=now; fn(...args); } };
+};
+
+window.addEventListener('scroll', throttle(updateScrollbar, 100));
+searchInput.addEventListener('input', debounce(searchAPI, 300));`,
+        qa: [
+          { q: 'Memory leak JavaScript mein kaise detect aur fix karein?', a: '<b>Detect</b>: Chrome DevTools → Memory tab → Heap Snapshot → compare over time (growing = leak). <b>Common causes</b>: 1) Event listeners remove nahi kiye (removeEventListener). 2) setInterval clear nahi kiya. 3) Closure bade objects hold kar raha. 4) DOM references global variables mein. <b>Fix</b>: useEffect cleanup function hamesha return karo. WeakMap/WeakRef large objects ke liye. Strict React Strict Mode double-invokes effects — cleanup bugs expose karta hai.' },
+          { q: 'Layout thrashing kya hai?', a: 'Layout thrashing = DOM read ke immediately baad write, phir read, phir write — browser ko bar bar layout recalculate karna padta hai. Example: offsetHeight read → style.height write → offsetHeight read again = 2 reflows. Fix: 1) Sab reads pehle batch karo. 2) Phir sab writes. 3) requestAnimationFrame mein DOM updates. 4) CSS transforms use karo (GPU-accelerated, no layout trigger). FastDOM library: scheduleRead/scheduleWrite.' },
+        ]
+      },
+
+    ];
+
+    // ══════════════════════════════════════════════
+    //  APP STATE
+    // ══════════════════════════════════════════════
+    let currentTopic = 'home';
+    let currentTab = 'all';
+    let openQAs = new Set();
+
+    // ══════════════════════════════════════════════
+    //  SIDEBAR
+    // ══════════════════════════════════════════════
+    function getFiltered(tab, filter) {
+      return topics.filter(t => {
+        if (tab !== 'all' && t.grp !== tab) return false;
+        if (filter && !t.label.toLowerCase().includes(filter.toLowerCase())) return false;
+        return true;
+      });
+    }
+
+    function renderSidebar(filter = '') {
+      const list = document.getElementById('sidebarList');
+      const filtered = getFiltered(currentTab, filter);
+      const sections = {};
+      filtered.forEach(t => {
+        if (!sections[t.sec]) sections[t.sec] = [];
+        sections[t.sec].push(t);
+      });
+
+      let html = `
+    <div style="padding:6px 0;">
+      <button class="sb-item ${currentTopic === 'home' ? 'active' : ''}" onclick="navigate('home')">
+        <span class="sb-dot" style="background:#7c6fff"></span>🏠 Home
+      </button>
+    </div>`;
+
+      Object.entries(sections).forEach(([sec, items]) => {
+        html += `<div class="sb-section">${sec}</div>`;
+        items.forEach(t => {
+          const grpLabel = t.grp === 'js' ? 'JS' : 'RCT';
+          const grpColor = t.grp === 'js' ? '#f7df1e' : '#61dafb';
+          html += `<button class="sb-item ${currentTopic === t.id ? 'active' : ''}" onclick="navigate('${t.id}')">
+        <span class="sb-dot" style="background:${t.color}"></span>
+        <span style="flex:1">${t.label}</span>
+        <span class="sb-badge" style="background:rgba(${t.grp === 'js' ? '247,223,30' : '97,218,251'},.15);color:${grpColor}">${grpLabel}</span>
+      </button>`;
+        });
+      });
+
+      list.innerHTML = html;
+    }
+
+    function filterTopics(val) {
+      renderSidebar(val);
+    }
+
+    function setTab(tab) {
+      currentTab = tab;
+      ['all', 'js', 'react'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.toggle('active', t === tab);
+      });
+      renderSidebar(document.getElementById('searchInput').value);
+    }
+
+    // ══════════════════════════════════════════════
+    //  NAVIGATION
+    // ══════════════════════════════════════════════
+    function navigate(id) {
+      currentTopic = id;
+      openQAs = new Set();
+      renderSidebar(document.getElementById('searchInput').value);
+      renderContent();
+      document.getElementById('main').scrollTop = 0;
+    }
+
+    function getNav() {
+      const ids = topics.map(t => t.id);
+      const i = ids.indexOf(currentTopic);
+      return {
+        prev: i > 1 ? ids[i - 1] : null,
+        next: i < ids.length - 1 ? ids[i + 1] : null
+      };
+    }
+
+    function getProgress() {
+      const ids = topics.filter(t => t.id !== 'home').map(t => t.id);
+      const i = ids.indexOf(currentTopic);
+      return i < 0 ? 0 : Math.round(((i + 1) / ids.length) * 100);
+    }
+
+    // ══════════════════════════════════════════════
+    //  SYNTAX HIGHLIGHT
+    // ══════════════════════════════════════════════
+    function highlight(code) {
+      return code
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/(\/\/.*?)(?=\n|$)/g, '<span class="cm">$1</span>')
+        .replace(/(`[^`\n]*`)/g, '<span class="str">$1</span>')
+        .replace(/('[^'\n]*'|"[^"\n]*")/g, '<span class="str">$1</span>')
+        .replace(/\b(import|export|from|const|let|var|function|return|async|await|if|else|new|typeof|true|false|null|undefined|class|extends|default|throw|try|catch|finally|this|super|static|of|in|for|while|break|switch|case|interface|type|implements|yield|delete|instanceof|void)\b/g, '<span class="kw">$1</span>')
+        .replace(/\b(useState|useEffect|useRef|useMemo|useCallback|useContext|useReducer|createContext|useId|useTransition|useDeferredValue|createPortal|forwardRef|memo|lazy|Suspense|Fragment|useNavigate|useParams|useSearchParams|useVirtualizer|useQuery|useMutation|useForm|renderHook|act|render|screen|waitFor|create)\b/g, '<span class="fn">$1</span>')
+        .replace(/\b(React|ReactDOM|Promise|Object|Array|Math|JSON|console|window|document|Map|Set|WeakMap|Error|setTimeout|setInterval|clearTimeout|clearInterval|fetch|localStorage|sessionStorage)\b/g, '<span class="cls">$1</span>')
+        .replace(/\b(\d+\.?\d*)\b/g, '<span class="num">$1</span>');
+    }
+
+    // ══════════════════════════════════════════════
+    //  COPY CODE
+    // ══════════════════════════════════════════════
+    function copyCode(topicId) {
+      const t = topics.find(x => x.id === topicId);
+      if (!t) return;
+      navigator.clipboard.writeText(t.code).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        if (btn) { btn.textContent = '✅ Copied!'; setTimeout(() => btn.textContent = 'Copy', 2000); }
+      });
+    }
+
+    // ══════════════════════════════════════════════
+    //  QA TOGGLE
+    // ══════════════════════════════════════════════
+    function toggleQA(i) {
+      openQAs.has(i) ? openQAs.delete(i) : openQAs.add(i);
+      document.querySelectorAll('.qa-a').forEach((el, j) => el.classList.toggle('open', openQAs.has(j)));
+      document.querySelectorAll('.qa-chev').forEach((el, j) => el.textContent = openQAs.has(j) ? '▲' : '▼');
+    }
+
+    // ══════════════════════════════════════════════
+    //  RENDER CONTENT
+    // ══════════════════════════════════════════════
+    function renderContent() {
+      const area = document.getElementById('content');
+      if (currentTopic === 'home') { renderHome(area); return; }
+      console.log(currentTopic)
+      let topisCur = [];
+      const t = topics.find(x => {
+        topisCur.push(x)
+        return x?.id === currentTopic
+      });
+      console.log(currentTopic)
+      if (!t) return;
+
+      const { prev, next } = getNav();
+      const progress = getProgress();
+
+      area.innerHTML = `
+    <div class="animate-in">
+      <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
+
+      <div class="topic-breadcrumb">
+        <a onclick="navigate('home')">Home</a> ›
+        <span style="color:var(--text3)">${t.sec}</span> ›
+        <span style="color:var(--text2)">${t.label}</span>
+      </div>
+
+      <div class="topic-header">
+        <div class="topic-tag" style="background:${t.tagColor};color:${t.tagText}">${t.tag}</div>
+        <div class="topic-h1">${t.label}</div>
+        <div class="topic-tagline">${t.tagline}</div>
+      </div>
+
+      <!-- 5W Framework -->
+      <div class="fivew-grid">
+        <div class="fivew-card">
+          <div class="fivew-icon">❓</div>
+          <div class="fivew-label" style="color:#a78bfa">WHAT — Kya hai?</div>
+          <div class="fivew-text">${t.what}</div>
+        </div>
+        <div class="fivew-card">
+          <div class="fivew-icon">💡</div>
+          <div class="fivew-label" style="color:#fb923c">WHY — Kyun use karein?</div>
+          <div class="fivew-text">${t.why}</div>
+        </div>
+        <div class="fivew-card">
+          <div class="fivew-icon">⏰</div>
+          <div class="fivew-label" style="color:#4ade80">WHEN — Kab use karein?</div>
+          <div class="fivew-text">${t.when}</div>
+        </div>
+        <div class="fivew-card">
+          <div class="fivew-icon">📍</div>
+          <div class="fivew-label" style="color:#38bdf8">WHERE — Kahan use karein?</div>
+          <div class="fivew-text">${t.where}</div>
+        </div>
+        <div class="fivew-card full">
+          <div class="fivew-icon">🛠️</div>
+          <div class="fivew-label" style="color:#f472b6">HOW — Kaise use karein?</div>
+          <div class="fivew-text">${t.how}</div>
+        </div>
+      </div>
+
+      ${t.warn ? `<div class="warn-box">⚠️ <b>Dhyan rakh:</b> ${t.warn}</div>` : ''}
+      ${t.tip ? `<div class="tip-box">💡 <b>Pro Tip:</b> ${t.tip}</div>` : ''}
+
+      <!-- Code Example -->
+      <div class="code-section">
+        <div class="code-section-head">
+          <div class="code-section-title">
+            <span style="color:${t.color}">●</span>
+            Code Example — Interview Ready
+            <span class="chip chip-${t.grp === 'react' ? 'react' : 'js'}">${t.grp === 'react' ? 'React' : 'JavaScript'}</span>
+          </div>
+          <button class="copy-btn" onclick="copyCode('${t.id}')">Copy</button>
+        </div>
+        <div class="code-block"><pre>${highlight(t.code)}</pre></div>
+      </div>
+
+      <!-- Interview QA -->
+      <div class="qa-section">
+        <div class="qa-title">🎯 Interview Questions — Mix Hindi + English</div>
+        <div class="info-box">💬 <b>Tip:</b> In sawalon ke jawab yaad karo — 90% companies mein ye hi poochhte hain. Click karke answer dekho.</div>
+        ${t.qa.map((qa, i) => `
+          <div class="qa-item">
+            <div class="qa-q" onclick="toggleQA(${i})">
+              <span class="qa-q-text">Q${i + 1}. ${qa.q}</span>
+              <span class="qa-chev">${openQAs.has(i) ? '▲' : '▼'}</span>
+            </div>
+            <div class="qa-a ${openQAs.has(i) ? 'open' : ''}">
+              <div class="qa-a-inner">${qa.a}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+
+      <!-- Navigation -->
+      <div class="nav-btns">
+        ${prev ? `<button class="nav-btn nav-prev" onclick="navigate('${prev}')">← Pehla Topic</button>` : ''}
+        ${next ? `<button class="nav-btn nav-next" onclick="navigate('${next}')">Agla Topic →</button>` : `<button class="nav-btn nav-next" onclick="navigate('home')">🏠 Home</button>`}
+      </div>
+    </div>`;
+    }
+
+    // ══════════════════════════════════════════════
+    //  RENDER HOME
+    // ══════════════════════════════════════════════
+    function renderHome(area) {
+      const jsTopics = topics.filter(t => t.grp === 'js');
+      const reactTopics = topics.filter(t => t.grp === 'react');
+      const total = topics.length;
+
+      const renderGroup = (items, title, icon, color) => {
+        const sections = {};
+        items.forEach(t => { if (!sections[t.sec]) sections[t.sec] = []; sections[t.sec].push(t); });
+
+        return `
+      <div class="home-grid-title">
+        <span style="font-size:18px">${icon}</span>
+        <span style="color:${color}">${title}</span>
+        <span style="color:var(--text3);font-size:11px;font-weight:400">(${items.length} topics)</span>
+      </div>
+      ${Object.entries(sections).map(([sec, list]) => `
+        <div style="margin-bottom:6px">
+          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin:10px 0 6px;font-weight:600">${sec}</div>
+          <div class="home-grid">
+            ${list.map(t => `
+              <div class="home-card" onclick="navigate('${t.id}')">
+                <div class="home-card-icon">${t.icon}</div>
+                <div class="home-card-name">${t.label}</div>
+                <div class="home-card-cat" style="color:${t.color}">${t.sec}</div>
+              </div>`).join('')}
+          </div>
+        </div>`).join('')}`;
+      };
+
+      area.innerHTML = `
+    <div class="animate-in">
+      <div class="home-hero">
+        <div class="home-hero-title">⚡ Complete Interview Guide<br>JS + ES6 + React</div>
+        <div class="home-hero-sub">
+          Har topic pe <b>What, Why, When, Where, How</b> — Mix Hindi + English explanations ke saath.
+          Code examples, interview Q&As, aur pro tips. Sidebar se tab filter karo ya search karo.
+        </div>
+        <div class="home-stats">
+          <div class="stat-box"><div class="stat-n">${total}</div><div class="stat-l">Topics</div></div>
+          <div class="stat-box"><div class="stat-n">${total * 5}</div><div class="stat-l">5W Answers</div></div>
+          <div class="stat-box"><div class="stat-n">${total * 2}+</div><div class="stat-l">Interview Q&As</div></div>
+          <div class="stat-box"><div class="stat-n">Mix</div><div class="stat-l">HI + EN</div></div>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        🎯 <b>Interview Strategy:</b> Har topic ka WHAT → WHY → WHEN/WHERE → HOW sequence follow karo jawab dete waqt. Code example se demonstrate karo. Ye approach interviewer impress karta hai.
+      </div>
+
+      ${renderGroup(jsTopics, 'JavaScript + ES6 Topics', '🟡', '#f7df1e')}
+      ${renderGroup(reactTopics, 'React JS Topics', '⚛️', '#61dafb')}
+    </div>`;
+    }
+
+    // ══════════════════════════════════════════════
+    //  INIT
+    // ══════════════════════════════════════════════
+    renderSidebar();
+    renderContent();
+  </script>
+</body>
+
+</html>
